@@ -20,11 +20,27 @@ namespace CNB
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+
     public sealed partial class MainPage : Page
     {
+        public static RootObject myData;
+        public static RootObject1 myDetail;
+        public static string myDetialArticleId;
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                myData = await NewsProxy.GetNews();
+                MyFrame.Navigate(typeof(Page1));
+            }
+            catch
+            {
+            }
         }
     }
 }
