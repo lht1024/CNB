@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -24,23 +25,46 @@ namespace CNB
     public sealed partial class MainPage : Page
     {
         public static RootObject myData;
+        public static CommentsProxy.RootObject myComments;
         public static RootObject1 myDetail;
         public static string myDetialArticleId;
+        public static string myLastArticleId;
+        public static string Filter;
+        public static bool IsFirstPageLoad = false;
+        public static bool IsAboutClick = false;
+
         public MainPage()
         {
+            
             this.InitializeComponent();
+            MySetting();
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+
+       
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            MyFrame.Navigate(typeof(Page1));
+        }
+
+        public static void MySetting(string setting)
+        {
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            localSettings.Values["FilterSetting"] = setting;
+            Filter = localSettings.Values["FilterSetting"].ToString();
+        }
+        public static void MySetting()
+        {
+            ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if(localSettings.Values.ContainsKey("FilterSetting"))
+                Filter = localSettings.Values["FilterSetting"].ToString();
+            else
             {
-                myData = await NewsProxy.GetNews();
-                MyFrame.Navigate(typeof(Page1));
+                localSettings.Values["FilterSetting"] = "1";
+                Filter = localSettings.Values["FilterSetting"].ToString();
             }
-            catch
-            {
-            }
+
         }
     }
 }

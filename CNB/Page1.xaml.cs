@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,27 +27,38 @@ namespace CNB
     /// </summary>
     public sealed partial class Page1 : Page
     {
-        ObservableCollection<News> MyNewsList;
+        NewsCollectionList MyNewsList;
         public Page1()
         {
             this.InitializeComponent();
-            MyBlock.Visibility = Visibility.Collapsed;
-            MyNewsList = new ObservableCollection<News>();
-            FillListView();
-            
+            SystemNavigationManager.GetForCurrentView().BackRequested += Page_GoBack;
+            MyNewsList = new NewsCollectionList();
+            MyNewsList.DataLoaded += MyNewsList_DataLoaded;
+            NewsFrame.Navigate(typeof(Page2));
+
 
         }
 
-        public void FillListView()
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            for (int i = 0; i < MainPage.myData.Results.Count; i++)
-                MyNewsList.Add(new News
-                {
-                    title = MainPage.myData.Results[i].title,
-                    date = MainPage.myData.Results[i].date,
-                    intro = MainPage.myData.Results[i].intro,
-                    article_id = MainPage.myData.Results[i].article_id
-                });
+            if (MySwitch.IsOn)
+                MyNewsTotal.Visibility = Visibility.Visible;
+            else
+                MyNewsTotal.Visibility = Visibility.Collapsed;
+        }
+
+        private void Page_GoBack(object sender, BackRequestedEventArgs e)
+        {
+            if (NewsFrame.CanGoBack)
+            {
+                NewsFrame.GoBack();
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            }
+        }
+
+        private void MyNewsList_DataLoaded()
+        {
+            MyNewsTotal.Text = MyNewsList.TotalCount.ToString();
         }
 
         private async void MyListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -54,13 +66,12 @@ namespace CNB
             var mySeleted = (News)e.ClickedItem;
             MainPage.myDetialArticleId = mySeleted.article_id;
             MainPage.myDetail = await NewsDetailProxy.GetNewsDetail(mySeleted.article_id);
-            MyDetaiSource.Text = MainPage.myDetail.source;
-            MyDetaiDate.Text = MainPage.myDetail.date;
+            
             var filtler = Clear("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset = utf-8\"></head>" + "<p>" 
                 + MainPage.myDetail.intro + "</p>" + MainPage.myDetail.content);
             await WriteHtml(filtler);
-            MyWebView.Source = new Uri("ms-appdata:///local/DataFile/HTMLPage1.html", UriKind.RelativeOrAbsolute);
-            MyBlock.Visibility = Visibility.Visible;
+
+            NewsFrame.Navigate(typeof(Page2));
         }
 
         private async Task WriteHtml(string filtler)
@@ -71,7 +82,7 @@ namespace CNB
             await FileIO.WriteTextAsync(file, filtler);
         }
 
-        public static string ClearHtmlCode(string text)
+     /*   public static string ClearHtmlCode(string text)
         {
             text = text.Trim();
             if (string.IsNullOrEmpty(text))
@@ -86,14 +97,33 @@ namespace CNB
           //  text = text.Replace("'", "''");
             text = Regex.Replace(text, "/ [/s| |    ]* /g", string.Empty);
             return text;
-        }
+        }*/
 
         public static string Clear(string text)
         {
+            text = Regex.Replace(text, "<embed.+?/>", "<p style=\"text-align:center;font-weight:bolder\">不能视频显示</p>");
             text = Regex.Replace(text, "\"", "\"");
             text = Regex.Replace(text,"\\/","/");
             return text;
         }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage.IsFirstPageLoad = false;
+            NewsFrame.Navigate(typeof(Page2));
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            MyNewsList.DoRefresh();
+        }
+
+        
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage.IsAboutClick = true;
+            NewsFrame.Navigate(typeof(Page2));
+        }
+
     }
 
 }

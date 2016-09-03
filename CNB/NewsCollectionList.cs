@@ -14,6 +14,7 @@ namespace CNB
         private bool _busy = false;
         private bool _has_more_items = false;
         private int _current_page = 1;
+        public event DataLoadedEventHandler DataLoaded;
 
         public int TotalCount
         {
@@ -52,29 +53,66 @@ namespace CNB
         {
             _busy = true;
             var actualCount = 0;
-            List<News> list = null;
             try
             {
-                list = await UserService.GetCurrentUserCollection(_current_page);
+                if (_current_page == 1)
+                {
+                   MainPage.myData = await NewsProxy.GetNews();
+                   MainPage.myLastArticleId = MainPage.myData.Results[MainPage.myData.Results.Count - 1].article_id;
+                }
+                    
+                else
+                {
+                    MainPage.myData = await NewsProxy.GetNews(MainPage.myLastArticleId);
+                    MainPage.myLastArticleId = MainPage.myData.Results[MainPage.myData.Results.Count - 1].article_id;
+                }
+                   
             }
             catch (Exception)
             {
                 HasMoreItems = false;
             }
 
-            if (list != null && list.Any())
+            if (MainPage.myData.Results != null && MainPage.myData.Results.Any())
             {
-                actualCount = list.Count;
+                actualCount = MainPage.myData.Results.Count;
                 TotalCount += actualCount;
                 _current_page++;
                 HasMoreItems = true;
-                list.ForEach((c) => { this.Add(c); });
+                if (MainPage.Filter == "0")
+                    MainPage.myData.Results.ForEach((c) =>
+                    {
+                        this.Add(new News
+                        {
+                            title = c.title,
+                            date = c.date,
+                            intro = c.intro,
+                            article_id = c.article_id,
+                            source = c.source
+                        });
+                    });
+                else
+                    foreach(var item in MainPage.myData.Results)
+                    {
+                        if(item.source != "威锋网")
+                        this.Add(new News
+                        {
+                            title = item.title,
+                            date = item.date,
+                            intro = item.intro,
+                            article_id = item.article_id,
+                            source = item.source
+                        });
+                    }
             }
             else
             {
                 HasMoreItems = false;
             }
-            
+            if (DataLoaded != null)
+            {
+                DataLoaded();
+            }
             _busy = false;
             return new LoadMoreItemsResult
             {

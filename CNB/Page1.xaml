@@ -9,18 +9,59 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           MinWidth="1050">
+
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <RelativePanel Width="424">
+            <AppBarButton Label="刷新"
+                          Name="Refresh"
+                          Icon="RepeatAll" 
+                          Click="Refresh_Click"
+                          IsCompact="True"
+                          RelativePanel.AlignLeftWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True"/>
 
 
+            <TextBlock Name="MyNewsTotal" 
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Text="0"
+                       Margin="10"
+                       RelativePanel.RightOf="Refresh"
+                       RelativePanel.AlignTopWithPanel="True"
+                       Visibility="Collapsed"/>
+            <ToggleSwitch Toggled="ToggleSwitch_Toggled"
+                          Name="MySwitch"
+                          OnContent="显示"
+                          OffContent="隐藏"
+                          Margin="10,5"
+                          RelativePanel.LeftOf="About"
+                          RelativePanel.AlignTopWithPanel="True"
+                          IsOn="False"/>
+
+            <AppBarButton Label="关于"
+                          Name="About"
+                          Icon="Help" 
+                          Click="About_Click"
+                          IsCompact="True"
+                          RelativePanel.AlignRightWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True"/>
+        </RelativePanel>
         <ListView ItemsSource="{x:Bind MyNewsList}"
                   Name="MyListView"
                   IsItemClickEnabled="True"
                   ItemClick="MyListView_ItemClick"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                  Grid.Column="0">
+                  Grid.Column="0"
+                  Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:News">
                     <StackPanel HorizontalAlignment="Left"
@@ -51,35 +92,9 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal"
-                        Grid.Row="0">
-                <Grid>
-                    <Rectangle Width="150"
-                               Height="50"
-                               Fill="LightBlue"
-                               Name="MyBlock"/>
-                    <TextBlock  Name="MyDetaiSource"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Margin="25"
-                                Foreground="White"/>
-                </Grid>
-                <TextBlock Name="MyDetaiDate"
-                           HorizontalAlignment="Right"
-                           Margin="70,40"/>
-            </StackPanel>
-
-                <WebView Name="MyWebView"
-                         Grid.Row="1"
-                         Width="650"
-                         Height="550"
-                         ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
-
-        </Grid>
+        <Frame Name="NewsFrame"
+               Grid.Column="1"
+               Grid.Row="0"
+               Grid.RowSpan="2"/>
     </Grid>
 </Page>

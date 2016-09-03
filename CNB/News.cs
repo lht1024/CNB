@@ -13,5 +13,6 @@ namespace CNB
         public string title { get; set; }
         public string date { get; set; }
         public string intro { get; set; }
+        public string source { get; set; }
     }
 }
