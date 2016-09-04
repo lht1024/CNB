@@ -73,7 +73,7 @@ namespace CNB
                 HasMoreItems = false;
             }
 
-            if (MainPage.myData.Results != null && MainPage.myData.Results.Any())
+            if (MainPage.myData != null && MainPage.myData.Results.Any())
             {
                 actualCount = MainPage.myData.Results.Count;
                 TotalCount += actualCount;
@@ -107,6 +107,10 @@ namespace CNB
             }
             else
             {
+                this.Add(new News
+                {
+                    intro = "似乎并没有网络连接"
+                });
                 HasMoreItems = false;
             }
             if (DataLoaded != null)

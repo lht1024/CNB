@@ -70,47 +70,5 @@ namespace CNB
             return res;
         }
 
-        public async static Task<RootObjectBack> SupportComment(string tid)
-        {
-            var timstamp = ((DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
-            var toBehashed = String.Format("app_key=10000&format=json&method=Article.DoCmt&op=support&sid={0}&tid=1&timestamp={1}&v=1.0&mpuffgvbvbttn3Rc", tid, timstamp);
-            var Md5 = ComputeMD5(toBehashed);
-            var mylink = String.Format("http://api.cnbeta.com/capi?app_key=10000&format=json&method=Article.DoCmt&op=support&sid={0}&tid=1&timestamp={1}&v=1.0&sign={2}", tid, timstamp, Md5);
-
-            var http = new HttpClient();
-            var response = await http.GetAsync(mylink);
-            var result = await response.Content.ReadAsStringAsync();
-
-            var serializer = new DataContractJsonSerializer(typeof(RootObjectBack));
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(result));
-            var data = (RootObjectBack)serializer.ReadObject(ms);
-            return data;
-        }
-
-        public async static Task<RootObjectBack> AgainstComment(string tid)
-        {
-            var timstamp = ((DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
-            var toBehashed = String.Format("app_key=10000&format=json&method=Article.DoCmt&op=against&sid={0}&tid=0&timestamp={1}&v=1.0&mpuffgvbvbttn3Rc", tid, timstamp);
-            var Md5 = ComputeMD5(toBehashed);
-            var mylink = String.Format("http://api.cnbeta.com/capi?app_key=10000&format=json&method=Article.DoCmt&op=against&sid={0}&tid=0&timestamp={1}&v=1.0&sign={2}", tid, timstamp, Md5);
-
-            var http = new HttpClient();
-            var response = await http.GetAsync(mylink);
-            var result = await response.Content.ReadAsStringAsync();
-
-            var serializer = new DataContractJsonSerializer(typeof(RootObjectBack));
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(result));
-            var data = (RootObjectBack)serializer.ReadObject(ms);
-            return data;
-        }
-        [DataContract]
-        public class RootObjectBack
-        {
-            [DataMember]
-            public string status { get; set; }
-            [DataMember]
-            public string result { get; set; }
-        }
-
     }
 }

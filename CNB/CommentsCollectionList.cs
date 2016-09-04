@@ -37,7 +37,15 @@ namespace CNB
         {
             HasMoreItems = true;
         }
-      
+
+        public void DoRefresh()
+        {
+            _current_page = 1;
+            TotalCount = 0;
+            Clear();
+            HasMoreItems = true;
+        }
+
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
             return InnerLoadMoreItemsAsync(count).AsAsyncOperation();
@@ -64,19 +72,36 @@ namespace CNB
                 TotalCount += actualCount;
                 _current_page++;
                 HasMoreItems = true;
-                MainPage.myComments.result.ForEach((c) =>
-                {
-                    this.Add(new Comment
+                if(MainPage.IsHotCommentsSelected == false)
+                    MainPage.myComments.result.ForEach((c) =>
                     {
+                        this.Add(new Comment
+                        {
 
-                        username = (c.username.Contains("") ? "匿名用户" : c.username),
-                        content = c.content,
-                        created_time = c.created_time,
-                        against = "反对(" + c.against +")",
-                        support = "支持(" + c.support +")",
-                        tid = c.tid
+                            username = (c.username.Contains("") ? "匿名用户" : c.username),
+                            content = c.content,
+                            created_time = c.created_time,
+                            against = "反对(" + c.against +")",
+                            support = "支持(" + c.support +")",
+                            tid = c.tid
+                        });
                     });
-                });
+                else
+                    MainPage.myComments.result.ForEach((c) =>
+                    {
+                        if(int.Parse(c.support) > 7 || int.Parse(c.against) > 13)
+                        this.Add(new Comment
+                        {
+
+                            username = (c.username.Contains("") ? "匿名用户" : c.username),
+                            content = c.content,
+                            created_time = c.created_time,
+                            against = "反对(" + c.against + ")",
+                            support = "支持(" + c.support + ")",
+                            tid = c.tid
+                        });
+                    });
+
             }
             else
             {

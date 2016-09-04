@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,39 +23,70 @@ namespace CNB
     /// </summary>
     public sealed partial class Page3 : Page
     {
-        CommentsProxy.RootObjectBack Back;
         CommentsCollectionList MyCommentsList;
-        public static string tid;
+        Color darkRed = new Color
+        {
+            A = 255,
+            R = 139,
+            G = 0,
+            B = 0
+        };
+        Color white = new Color
+        {
+            A = 255,
+            R = 255,
+            G = 255,
+            B = 255
+        };
         public Page3()
         {
             this.InitializeComponent();
             MyCommentsList = new CommentsCollectionList();
-        }
+            
+            
 
-        private void CommentsListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            Status.Text = "";
-            var Item = (Comment)e.ClickedItem;
-            tid =Item.tid;
-            if (!string.IsNullOrEmpty(tid))
+            if (MainPage.IsHotCommentsSelected == true)
             {
-                var t = sender as ListView;
-                FlyoutBase.ShowAttachedFlyout(t);
+                HotComments.Foreground = new SolidColorBrush(darkRed);
+                HotComments.Background = new SolidColorBrush(white);
+                AllComments.Foreground = new SolidColorBrush(white);
+                AllComments.Background = new SolidColorBrush(darkRed);
             }
-
+            else
+            {
+                HotComments.Foreground = new SolidColorBrush(white);
+                HotComments.Background = new SolidColorBrush(darkRed);
+                AllComments.Foreground = new SolidColorBrush(darkRed);
+                AllComments.Background = new SolidColorBrush(white);
+            }
         }
 
-        private async void SupportButton_Click(object sender, RoutedEventArgs e)
+        private void HotComments_Click(object sender, RoutedEventArgs e)
         {
-           Back = await CommentsProxy.SupportComment(tid);
-           Status.Text = Back.result;
+            if (MainPage.IsHotCommentsSelected == false)
+            {
+                MainPage.IsHotCommentsSelected = true;
+                HotComments.Foreground = new SolidColorBrush(darkRed);
+                HotComments.Background = new SolidColorBrush(white);
+                AllComments.Foreground = new SolidColorBrush(white);
+                AllComments.Background = new SolidColorBrush(darkRed);
+                MyCommentsList.DoRefresh();
+            }
+           
         }
 
-        private async void AgainstButton_Click(object sender, RoutedEventArgs e)
+        private void AllComments_Click(object sender, RoutedEventArgs e)
         {
-            Back = await CommentsProxy.AgainstComment(tid);
-            if (Back.status == "success")
-            Status.Text = Back.result;
+            if(MainPage.IsHotCommentsSelected == true)
+            {
+                MainPage.IsHotCommentsSelected = false;
+                HotComments.Foreground = new SolidColorBrush(white);
+                HotComments.Background = new SolidColorBrush(darkRed);
+                AllComments.Foreground = new SolidColorBrush(darkRed);
+                AllComments.Background = new SolidColorBrush(white);
+                MyCommentsList.DoRefresh();
+            }
+            
         }
     }
 }

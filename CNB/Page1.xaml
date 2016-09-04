@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          MinWidth="1050">
+          MinWidth="1080">
 
 
         <Grid.ColumnDefinitions>
@@ -37,15 +37,7 @@
                        Margin="10"
                        RelativePanel.RightOf="Refresh"
                        RelativePanel.AlignTopWithPanel="True"
-                       Visibility="Collapsed"/>
-            <ToggleSwitch Toggled="ToggleSwitch_Toggled"
-                          Name="MySwitch"
-                          OnContent="显示"
-                          OffContent="隐藏"
-                          Margin="10,5"
-                          RelativePanel.LeftOf="About"
-                          RelativePanel.AlignTopWithPanel="True"
-                          IsOn="False"/>
+                       Visibility="Visible"/>
 
             <AppBarButton Label="关于"
                           Name="About"
@@ -95,6 +87,7 @@
         <Frame Name="NewsFrame"
                Grid.Column="1"
                Grid.Row="0"
-               Grid.RowSpan="2"/>
+               Grid.RowSpan="2"
+               Margin="10,10,0,10"/>
     </Grid>
 </Page>

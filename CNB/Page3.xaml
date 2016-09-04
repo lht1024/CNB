@@ -8,11 +8,36 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Name="HotComments"
+                    Click="HotComments_Click"
+                    Content="热门评论"
+                    Foreground="White"
+                    Background="DarkRed"
+                    Margin="0,5,0,5"
+                    BorderBrush="DarkRed"
+                    BorderThickness="1"/>
+            <Button Name="AllComments"
+                    Click="AllComments_Click"
+                    Content="所有评论"
+                    Foreground="White"
+                    Background="DarkRed"
+                    Margin="0,5,0,5"
+                    BorderBrush="DarkRed"
+                    BorderThickness="1"/>
+        </StackPanel>
+        
         <ListView ItemsSource="{x:Bind MyCommentsList}"
                   Name="CommentsListView"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                  IsItemClickEnabled="True"
-                  ItemClick="CommentsListView_ItemClick">
+                  IsItemClickEnabled="False"
+                  Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:Comment">
 
@@ -30,10 +55,10 @@
                                         Foreground="DarkRed"/>
                             <TextBlock Name="Support"
                                        Text="{x:Bind support}"
-                                       FontSize="12" />
+                                       FontSize="13" />
                             <TextBlock Name="Against"
                                        Text="{x:Bind against }"
-                                       FontSize="12" />
+                                       FontSize="13" />
                         </StackPanel>
                         <TextBlock FontSize="10" 
                                        Text="{x:Bind created_time}"
@@ -49,24 +74,6 @@
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <FlyoutBase.AttachedFlyout>
-                <Flyout Placement="Right">
-                    <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Content="支持"
-                                    Name="SupportButton"
-                                    Click="SupportButton_Click"
-                                    Margin="10"/>
-                            <Button Content="反对"
-                                    Name="AgainstButton"
-                                    Click="AgainstButton_Click"
-                                    Margin="10"/>
-                        </StackPanel>
-                        <TextBlock Name="Status"
-                                   HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </Flyout>
-            </FlyoutBase.AttachedFlyout>
         </ListView>
     </Grid>
 </Page>

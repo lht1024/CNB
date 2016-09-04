@@ -28,15 +28,7 @@ namespace CNB
         {
             this.InitializeComponent();
 
-
-            if (MainPage.Filter == "0")
-            {
-                FilterSwitch.IsOn = false;
-            }
-            else
-            {
-                FilterSwitch.IsOn = true;
-            }
+            FilterSwitch.IsOn = MainPage.Filter.Equals("0") ? false : true;
 
             if (MainPage.IsFirstPageLoad == false)
             {
@@ -67,14 +59,7 @@ namespace CNB
 
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            if (FilterSwitch.IsOn)
-            {
-                MainPage.MySetting("1");
-            }
-            else
-            {
-                MainPage.MySetting("0");
-            }
+            MainPage.MySetting(FilterSwitch.IsOn?"1":"0");
         }
 
         private void LoadComments_Click(object sender, RoutedEventArgs e)

@@ -44,13 +44,13 @@
                         Background="LightBlue"
                         Foreground="White" />
 
-                <ToggleSwitch OnContent="威锋网已屏蔽"
-                            OffContent="建议开启"
-                            Toggled="ToggleSwitch_Toggled"
-                            Name="FilterSwitch"
-                            Margin="10,15"
-                              RelativePanel.AlignRightWithPanel="True"
-                              RelativePanel.AlignTopWithPanel="True"/>
+                <ToggleSwitch   OnContent="已屏蔽威锋网"
+                                OffContent="建议开启"
+                                Toggled="ToggleSwitch_Toggled"
+                                Name="FilterSwitch"
+                                Margin="10,15"
+                                RelativePanel.AlignRightWithPanel="True"
+                                RelativePanel.AlignTopWithPanel="True"/>
             </RelativePanel>
 
             <WebView Name="MyWebView"

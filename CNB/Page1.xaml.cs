@@ -38,15 +38,6 @@ namespace CNB
 
 
         }
-
-        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-        {
-            if (MySwitch.IsOn)
-                MyNewsTotal.Visibility = Visibility.Visible;
-            else
-                MyNewsTotal.Visibility = Visibility.Collapsed;
-        }
-
         private void Page_GoBack(object sender, BackRequestedEventArgs e)
         {
             if (NewsFrame.CanGoBack)
@@ -55,7 +46,6 @@ namespace CNB
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             }
         }
-
         private void MyNewsList_DataLoaded()
         {
             MyNewsTotal.Text = MyNewsList.TotalCount.ToString();
@@ -63,15 +53,22 @@ namespace CNB
 
         private async void MyListView_ItemClick(object sender, ItemClickEventArgs e)
         {
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            MainPage.IsHotCommentsSelected = false;
             var mySeleted = (News)e.ClickedItem;
             MainPage.myDetialArticleId = mySeleted.article_id;
-            MainPage.myDetail = await NewsDetailProxy.GetNewsDetail(mySeleted.article_id);
-            
-            var filtler = Clear("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset = utf-8\"></head>" + "<p>" 
-                + MainPage.myDetail.intro + "</p>" + MainPage.myDetail.content);
-            await WriteHtml(filtler);
+            if(!string.IsNullOrEmpty(MainPage.myDetialArticleId))
+            {
+                MainPage.myDetail = await NewsDetailProxy.GetNewsDetail(mySeleted.article_id);
 
-            NewsFrame.Navigate(typeof(Page2));
+                var filtler = Clear("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset = utf-8\"></head>" + "<p>"
+                    + MainPage.myDetail.intro + "</p>" + MainPage.myDetail.content);
+                await WriteHtml(filtler);
+                NewsFrame.Navigate(typeof(Page2));
+            }
+           
+
+
         }
 
         private async Task WriteHtml(string filtler)

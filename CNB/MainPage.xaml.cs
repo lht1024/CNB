@@ -32,6 +32,7 @@ namespace CNB
         public static string Filter;
         public static bool IsFirstPageLoad = false;
         public static bool IsAboutClick = false;
+        public static bool IsHotCommentsSelected = false;
 
         public MainPage()
         {
