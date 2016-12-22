@@ -1,4 +1,4 @@
-# CNB
+# CNB/UWP
 cnBeta第三方UWP客户端<br />
 <p>主要功能：<br />
 1.浏览新闻
