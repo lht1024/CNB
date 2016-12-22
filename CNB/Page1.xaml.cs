@@ -32,12 +32,21 @@ namespace CNB
         {
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += Page_GoBack;
+            
+
             MyNewsList = new NewsCollectionList();
             MyNewsList.DataLoaded += MyNewsList_DataLoaded;
+            MyNewsList.DataLoading += MyNewsList_DataLoading;
             NewsFrame.Navigate(typeof(Page2));
 
 
         }
+
+        private void MyNewsList_DataLoading()
+        {
+            MyProcessRing.IsActive = true;
+        }
+
         private void Page_GoBack(object sender, BackRequestedEventArgs e)
         {
             if (NewsFrame.CanGoBack)
@@ -48,12 +57,13 @@ namespace CNB
         }
         private void MyNewsList_DataLoaded()
         {
+            MyProcessRing.IsActive = false;
             MyNewsTotal.Text = MyNewsList.TotalCount.ToString();
         }
 
         private async void MyListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            
             MainPage.IsHotCommentsSelected = false;
             var mySeleted = (News)e.ClickedItem;
             MainPage.myDetialArticleId = mySeleted.article_id;
@@ -65,6 +75,7 @@ namespace CNB
                     + MainPage.myDetail.intro + "</p>" + MainPage.myDetail.content);
                 await WriteHtml(filtler);
                 NewsFrame.Navigate(typeof(Page2));
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             }
            
 
@@ -104,13 +115,14 @@ namespace CNB
             return text;
         }
 
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        private async void Refresh_Click(object sender, RoutedEventArgs e)
         {
             MainPage.IsFirstPageLoad = false;
             NewsFrame.Navigate(typeof(Page2));
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             MyNewsList.DoRefresh();
+            await MyListView.LoadMoreItemsAsync();
         }
 
         
@@ -119,6 +131,7 @@ namespace CNB
         {
             MainPage.IsAboutClick = true;
             NewsFrame.Navigate(typeof(Page2));
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
     }

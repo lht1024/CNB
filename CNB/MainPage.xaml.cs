@@ -28,7 +28,7 @@ namespace CNB
         public static CommentsProxy.RootObject myComments;
         public static RootObject1 myDetail;
         public static string myDetialArticleId;
-        public static string myLastArticleId;
+        public static string myLastArticleId = "";
         public static string Filter;
         public static bool IsFirstPageLoad = false;
         public static bool IsAboutClick = false;

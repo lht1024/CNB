@@ -12,24 +12,15 @@ namespace CNB
 {
     public class NewsProxy
     {
-        public async static Task<RootObject> GetNews()
-        {
-            var mylink = "http://cnbeta1.com/api/getArticles";
-            var http = new HttpClient();
-            var response = await http.GetAsync(mylink);
-            var result = await response.Content.ReadAsStringAsync();
-            var Test = "{\"Results\":" + result + "}";
-            var serializer = new DataContractJsonSerializer(typeof(RootObject));
-
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(Test));
-            var data = (RootObject)serializer.ReadObject(ms);
-
-            return data;
-        }
 
         public async static Task<RootObject> GetNews(string MoreNews)
         {
-            var mylink = String.Format( "http://cnbeta1.com/api/getMoreArticles/{0}",MoreNews);
+            string More;
+            if (string.IsNullOrEmpty(MoreNews))
+                More = "";
+            else
+                More = "More";
+            var mylink = String.Format( "http://cnbeta1.com/api/get{0}Articles/{1}", More, MoreNews);
             var http = new HttpClient();
             var response = await http.GetAsync(mylink);
             var result = await response.Content.ReadAsStringAsync();

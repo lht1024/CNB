@@ -13,8 +13,8 @@ namespace CNB
     {
         private bool _busy = false;
         private bool _has_more_items = false;
-        private int _current_page = 1;
         public event DataLoadedEventHandler DataLoaded;
+        public event DataLoadingEventHandler DataLoading;
 
         public int TotalCount
         {
@@ -40,7 +40,6 @@ namespace CNB
         }
         public void DoRefresh()
         {
-            _current_page = 1;
             TotalCount = 0;
             Clear();
             HasMoreItems = true;
@@ -53,31 +52,22 @@ namespace CNB
         {
             _busy = true;
             var actualCount = 0;
+            DataLoading?.Invoke();
             try
             {
-                if (_current_page == 1)
-                {
-                   MainPage.myData = await NewsProxy.GetNews();
-                   MainPage.myLastArticleId = MainPage.myData.Results[MainPage.myData.Results.Count - 1].article_id;
-                }
-                    
-                else
-                {
                     MainPage.myData = await NewsProxy.GetNews(MainPage.myLastArticleId);
                     MainPage.myLastArticleId = MainPage.myData.Results[MainPage.myData.Results.Count - 1].article_id;
-                }
-                   
             }
             catch (Exception)
             {
                 HasMoreItems = false;
             }
 
+
             if (MainPage.myData != null && MainPage.myData.Results.Any())
             {
                 actualCount = MainPage.myData.Results.Count;
                 TotalCount += actualCount;
-                _current_page++;
                 HasMoreItems = true;
                 if (MainPage.Filter == "0")
                     MainPage.myData.Results.ForEach((c) =>
@@ -113,10 +103,7 @@ namespace CNB
                 });
                 HasMoreItems = false;
             }
-            if (DataLoaded != null)
-            {
-                DataLoaded();
-            }
+            DataLoaded?.Invoke();
             _busy = false;
             return new LoadMoreItemsResult
             {

@@ -7,87 +7,113 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          MinWidth="1080">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="420"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <RelativePanel Grid.Row="0"
+                       Grid.Column="0">
+            <AppBarButton   Label="刷新"
+                            Name="Refresh"
+                            Icon="RepeatAll" 
+                            Click="Refresh_Click"
+                            IsCompact="True"
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignTopWithPanel="True"/>
 
-        <RelativePanel Width="424">
-            <AppBarButton Label="刷新"
-                          Name="Refresh"
-                          Icon="RepeatAll" 
-                          Click="Refresh_Click"
-                          IsCompact="True"
-                          RelativePanel.AlignLeftWithPanel="True"
-                          RelativePanel.AlignTopWithPanel="True"/>
 
+            <TextBlock  Name="MyNewsTotal" 
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="0"
+                        Margin="10"
+                        RelativePanel.RightOf="Refresh"
+                        RelativePanel.AlignTopWithPanel="True"
+                        Visibility="Visible"/>
 
-            <TextBlock Name="MyNewsTotal" 
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Text="0"
-                       Margin="10"
-                       RelativePanel.RightOf="Refresh"
-                       RelativePanel.AlignTopWithPanel="True"
-                       Visibility="Visible"/>
+            <ProgressRing   Name="MyProcessRing"
+                            Width="25"
+                            Height="25"
+                            Margin="15,10,0,10"
+                            RelativePanel.RightOf="MyNewsTotal"
+                            RelativePanel.AlignTopWithPanel="True"
+                            Foreground="DarkRed"/>
 
-            <AppBarButton Label="关于"
-                          Name="About"
-                          Icon="Help" 
-                          Click="About_Click"
-                          IsCompact="True"
-                          RelativePanel.AlignRightWithPanel="True"
-                          RelativePanel.AlignTopWithPanel="True"/>
+            <AppBarButton   Label="关于"
+                            Name="About"
+                            Icon="Help" 
+                            Click="About_Click"
+                            IsCompact="True"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignTopWithPanel="True"/>
         </RelativePanel>
-        <ListView ItemsSource="{x:Bind MyNewsList}"
-                  Name="MyListView"
-                  IsItemClickEnabled="True"
-                  ItemClick="MyListView_ItemClick"
-                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                  Grid.Column="0"
-                  Grid.Row="1">
+        
+        <ListView   ItemsSource="{x:Bind MyNewsList}"
+                    Name="MyListView"
+                    IsItemClickEnabled="True"
+                    ItemClick="MyListView_ItemClick"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                    Grid.Row="1"
+                    Grid.Column="0">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:News">
                     <StackPanel HorizontalAlignment="Left"
                                 Orientation="Vertical"
-                                Width="400"
                                 BorderThickness="5">
 
-                        <TextBlock FontSize="18" 
-                                   Margin="5"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind title}" 
-                                   TextWrapping="Wrap" 
-                                   Width="350"
-                                   HorizontalAlignment="Left"
-                                   Foreground="DarkRed"/>
-                        <TextBlock FontSize="10" 
-                                   Text="{x:Bind date}"
-                                   Width="350"
-                                   HorizontalAlignment="Left"
-                                   Margin="10,0"/>
-                        <TextBlock FontSize="14" 
-                                   Margin="5"
-                                   Text="{x:Bind intro}"
-                                   Width="350"
-                                   TextWrapping="Wrap" 
-                                   HorizontalAlignment="Left"/>
+                        <TextBlock  FontSize="18" 
+                                    Margin="5"
+                                    FontWeight="Bold"
+                                    Text="{x:Bind title}" 
+                                    TextWrapping="Wrap"
+                                    HorizontalAlignment="Left"
+                                    Foreground="DarkRed"/>
+                        <TextBlock  FontSize="10" 
+                                    Text="{x:Bind date}"
+                                    HorizontalAlignment="Left"
+                                    Margin="10,0"/>
+                        <TextBlock  FontSize="14" 
+                                    Margin="5"
+                                    Text="{x:Bind intro}"
+                                    TextWrapping="Wrap" 
+                                    HorizontalAlignment="Left"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Frame Name="NewsFrame"
-               Grid.Column="1"
-               Grid.Row="0"
-               Grid.RowSpan="2"
-               Margin="10,10,0,10"/>
+        
+
+        <Frame  Name="NewsFrame"
+                Grid.Row="0"
+                Grid.RowSpan="3"
+                Grid.Column="1"
+                Margin="10,10,0,10"/>
+        <TextBlock Grid.Row="3"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">
+            <Run Text="数据由"
+                 Foreground="DarkRed"
+                 FontSize="15"/>
+            <Run Text="cn"
+                 Foreground="#e43400"
+                 FontSize="20"/>
+            <Run Text="Beta"
+                 Foreground="#3c5175"
+                 FontSize="20"/>
+            <Run Text=".com"
+                 FontSize="10"
+                 Foreground="Black"/>
+            <Run Text="提供"
+                 Foreground="DarkRed"
+                 FontSize="15"/>
+        </TextBlock>
     </Grid>
 </Page>

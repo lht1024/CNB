@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 namespace CNB
 {
     delegate void DataLoadedEventHandler();
+    delegate void DataLoadingEventHandler();
 }

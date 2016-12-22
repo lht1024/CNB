@@ -100,18 +100,18 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Comment.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="CommentsCollectionList.cs" />
-    <Compile Include="CommentsProxy.cs" />
+    <Compile Include="Models\CommentsProxy.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="News.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="NewsCollectionList.cs" />
-    <Compile Include="NewsDetail.cs" />
-    <Compile Include="NewsDetailProxy.cs" />
-    <Compile Include="NewsProxy.cs" />
+    <Compile Include="Models\NewsDetail.cs" />
+    <Compile Include="Models\NewsDetailProxy.cs" />
+    <Compile Include="Models\NewsProxy.cs" />
     <Compile Include="Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>

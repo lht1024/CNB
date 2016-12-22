@@ -8,56 +8,53 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <RelativePanel Grid.Row="0">
-                <Grid RelativePanel.AlignLeftWithPanel="True"
-                      RelativePanel.AlignTopWithPanel="True"
-                      Name="MySourceGrid">
-                    <Rectangle Width="150"
-                               Height="50"
-                               Fill="LightBlue"
-                               Name="MyBlock"/>
-                    <TextBlock  Name="MyDetailSource"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Margin="25"
-                                Foreground="White"
-                                />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <RelativePanel>
+                    <Grid RelativePanel.AlignLeftWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True"
+                          Name="MySourceGrid">
+                        <Rectangle Width="150"
+                                   Height="50"
+                                   Fill="LightBlue"
+                                   Name="MyBlock"/>
+                        <TextBlock  Name="MyDetailSource"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Margin="25"
+                                    Foreground="White"
+                                    />
 
-                </Grid>
-                <TextBlock Name="MyDetailDate"
-                           HorizontalAlignment="Right"
-                           Margin="70,25,0,0"
-                           Foreground="Gray"
-                           RelativePanel.RightOf="MySourceGrid"
-                           RelativePanel.AlignTopWithPanel="True"/>
+                    </Grid>
+                    <TextBlock Name="MyDetailDate"
+                               HorizontalAlignment="Right"
+                               Margin="70,25,0,0"
+                               Foreground="Gray"
+                               RelativePanel.RightOf="MySourceGrid"
+                               RelativePanel.AlignTopWithPanel="True"/>
 
-                <Button Name="LoadComments"
-                        Click="LoadComments_Click"
-                        Content="评论"
-                        RelativePanel.RightOf="MyDetailDate"
-                        Margin="15,20" 
-                        Background="LightBlue"
-                        Foreground="White" />
+                    <Button Name="LoadComments"
+                            Click="LoadComments_Click"
+                            Content="评论"
+                            RelativePanel.RightOf="MyDetailDate"
+                            Margin="15,20" 
+                            Background="LightBlue"
+                            Foreground="White" />
 
-                <ToggleSwitch   OnContent="已屏蔽威锋网"
-                                OffContent="建议开启"
-                                Toggled="ToggleSwitch_Toggled"
-                                Name="FilterSwitch"
-                                Margin="10,15"
-                                RelativePanel.AlignRightWithPanel="True"
-                                RelativePanel.AlignTopWithPanel="True"/>
-            </RelativePanel>
+                    <ToggleSwitch   OnContent="已屏蔽威锋网"
+                                    OffContent="建议开启"
+                                    Toggled="ToggleSwitch_Toggled"
+                                    Name="FilterSwitch"
+                                    Margin="10,15"
+                                    RelativePanel.AlignRightWithPanel="True"
+                                    RelativePanel.AlignTopWithPanel="True"/>
+                </RelativePanel>
 
-            <WebView Name="MyWebView"
+
+                <WebView Name="MyWebView"
                          Grid.Row="1"
-                         ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
-
-
-        </Grid>
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden" />
     </Grid>
 </Page>

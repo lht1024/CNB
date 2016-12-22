@@ -77,7 +77,7 @@ namespace CNB
 
         private void AllComments_Click(object sender, RoutedEventArgs e)
         {
-            if(MainPage.IsHotCommentsSelected == true)
+            if (MainPage.IsHotCommentsSelected == true)
             {
                 MainPage.IsHotCommentsSelected = false;
                 HotComments.Foreground = new SolidColorBrush(white);
@@ -86,7 +86,6 @@ namespace CNB
                 AllComments.Background = new SolidColorBrush(white);
                 MyCommentsList.DoRefresh();
             }
-            
         }
     }
 }

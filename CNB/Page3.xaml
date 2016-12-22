@@ -5,6 +5,7 @@
     xmlns:local="using:CNB"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:loc="using:CNB"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -39,7 +40,7 @@
                   IsItemClickEnabled="False"
                   Grid.Row="1">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:Comment">
+                <DataTemplate x:DataType="loc:Comment">
 
                     <StackPanel HorizontalAlignment="Left"
                                     Orientation="Vertical"
@@ -68,7 +69,6 @@
                         <TextBlock FontSize="14" 
                                        Margin="5"
                                        Text="{x:Bind content}"
-                                       Width="350"
                                        TextWrapping="Wrap" 
                                        HorizontalAlignment="Left"/>
                     </StackPanel>
