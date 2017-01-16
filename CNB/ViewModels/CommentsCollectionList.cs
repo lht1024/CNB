@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 
 namespace CNB
 {
-    class CommentsCollectionList : ObservableCollection<Comment>, ISupportIncrementalLoading
+    internal class CommentsCollectionList : ObservableCollection<Comment>, ISupportIncrementalLoading
     {
         private bool _busy = false;
-        private bool _has_more_items = false;
         private int _current_page = 1;
+        private bool _has_more_items = false;
 
-        public int TotalCount
+        public CommentsCollectionList()
         {
-            get; set;
+            HasMoreItems = true;
         }
+
         public bool HasMoreItems
         {
             get
@@ -33,9 +32,10 @@ namespace CNB
                 _has_more_items = value;
             }
         }
-        public CommentsCollectionList()
+
+        public int TotalCount
         {
-            HasMoreItems = true;
+            get; set;
         }
 
         public void DoRefresh()
@@ -50,16 +50,14 @@ namespace CNB
         {
             return InnerLoadMoreItemsAsync(count).AsAsyncOperation();
         }
+
         private async Task<LoadMoreItemsResult> InnerLoadMoreItemsAsync(uint expectedCount)
         {
             _busy = true;
             var actualCount = 0;
             try
             {
-
                 MainPage.myComments = await CommentsProxy.GetResults((_current_page).ToString(), MainPage.myDetialArticleId);
-
-
             }
             catch (Exception)
             {
@@ -72,27 +70,11 @@ namespace CNB
                 TotalCount += actualCount;
                 _current_page++;
                 HasMoreItems = true;
-                if(MainPage.IsHotCommentsSelected == false)
+                if (MainPage.IsHotCommentsSelected == false)
                     MainPage.myComments.result.ForEach((c) =>
                     {
                         this.Add(new Comment
                         {
-
-                            username = (c.username.Contains("") ? "匿名用户" : c.username),
-                            content = c.content,
-                            created_time = c.created_time,
-                            against = "反对(" + c.against +")",
-                            support = "支持(" + c.support +")",
-                            tid = c.tid
-                        });
-                    });
-                else
-                    MainPage.myComments.result.ForEach((c) =>
-                    {
-                        if(int.Parse(c.support) > 7 || int.Parse(c.against) > 13)
-                        this.Add(new Comment
-                        {
-
                             username = (c.username.Contains("") ? "匿名用户" : c.username),
                             content = c.content,
                             created_time = c.created_time,
@@ -101,15 +83,28 @@ namespace CNB
                             tid = c.tid
                         });
                     });
-
+                else
+                    MainPage.myComments.result.ForEach((c) =>
+                    {
+                        if (int.Parse(c.support) > 7 || int.Parse(c.against) > 13)
+                            this.Add(new Comment
+                            {
+                                username = (c.username.Contains("") ? "匿名用户" : c.username),
+                                content = c.content,
+                                created_time = c.created_time,
+                                against = "反对(" + c.against + ")",
+                                support = "支持(" + c.support + ")",
+                                tid = c.tid
+                            });
+                    });
             }
             else
             {
-                if(this.Count == 0)
-                this.Add(new Comment
-                {
-                    content = "似乎没有人评论"
-                });
+                if (this.Count == 0)
+                    this.Add(new Comment
+                    {
+                        content = "似乎没有人评论"
+                    });
                 HasMoreItems = false;
             }
 

@@ -1,70 +1,55 @@
-﻿using System;
+﻿using CNB.ViewModels;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CNB
 {
+    public class LNewsRaw
+    {
+        public List<NewsRaw> result { get; set; }
+        public string status { get; set; }
+    }
+
     public class NewsProxy
     {
-
-        public async static Task<RootObject> GetNews(string MoreNews)
+        public async static Task<LNewsRaw> GetNews(string sid)
         {
-            string More;
-            if (string.IsNullOrEmpty(MoreNews))
-                More = "";
+            var timstamp = ComputeMD5.GetTimeStop();
+            string mylink;
+            if (sid == "")
+            {
+                var toBehashed = String.Format("app_key=10000&format=json&method=Article.Lists&timestamp={0}&v=1.0&mpuffgvbvbttn3Rc", timstamp);
+                var Md5 = ComputeMD5.GetMD5(toBehashed);
+                mylink = String.Format("http://api.cnbeta.com/capi?app_key=10000&format=json&method=Article.Lists&timestamp={0}&v=1.0&sign={1}", timstamp, Md5);
+            }
             else
-                More = "More";
-            var mylink = String.Format( "http://cnbeta1.com/api/get{0}Articles/{1}", More, MoreNews);
+            {
+                var toBehashed = String.Format("app_key=10000&end_sid={0}&format=json&method=Article.Lists&timestamp={1}&topicid=null&v=1.0&mpuffgvbvbttn3Rc", sid, timstamp);
+                var Md5 = ComputeMD5.GetMD5(toBehashed);
+                mylink = String.Format("http://api.cnbeta.com/capi?app_key=10000&end_sid={0}&format=json&method=Article.Lists&timestamp={1}&topicid=null&v=1.0&sign={2}", sid, timstamp, Md5);
+            }
+            
+
             var http = new HttpClient();
             var response = await http.GetAsync(mylink);
             var result = await response.Content.ReadAsStringAsync();
-            var Test = "{\"Results\":" + result + "}";
-            var serializer = new DataContractJsonSerializer(typeof(RootObject));
-
-            var ms = new MemoryStream(Encoding.UTF8.GetBytes(Test));
-            var data = (RootObject)serializer.ReadObject(ms);
-
+            var data = JsonConvert.DeserializeObject<LNewsRaw>(result);
             return data;
         }
     }
-    [DataContract]
-    public class Result
+
+    public class NewsRaw
     {
-        [DataMember]
-        public string id { get; set; }
-        [DataMember]
-        public string article_id { get; set; }
-        [DataMember]
+        public string comments { get; set; }
+        public string counter { get; set; }
+        public string pubtime { get; set; }
+        public string sid { get; set; }
+        public string summary { get; set; }
+        public string thumb { get; set; }
         public string title { get; set; }
-        [DataMember]
-        public string date { get; set; }
-        [DataMember]
-        public string intro { get; set; }
-        [DataMember]
-        public string topic { get; set; }
-        [DataMember]
-        public string view_num { get; set; }
-        [DataMember]
-        public string comment_num { get; set; }
-        [DataMember]
-        public string source { get; set; }
-        [DataMember]
-        public string source_link { get; set; }
-        [DataMember]
-        public string hot { get; set; }
-        [DataMember]
-        public string pushed { get; set; }
-    }
-    [DataContract]
-    public class RootObject
-    {
-        [DataMember]
-        public List<Result> Results { get; set; }
+        public string topic_logo { get; set; }
     }
 }

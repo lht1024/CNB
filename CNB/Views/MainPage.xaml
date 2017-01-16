@@ -9,8 +9,7 @@
     Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinWidth="800">
-
         <Frame Name="MyFrame"
-               Grid.Column="0"/>
+               Grid.Column="0" />
     </Grid>
 </Page>

@@ -1,1 +1,1 @@
-C:\Users\l1275\documents\visual studio 2015\Projects\CNB\CNB\AppPackages\CNB_1.2.19.0\CNB_1.2.19.0_x86_x64_arm.appxbundle
+C:\Users\l1275\Documents\Visual Studio 2015\Projects\CNB\CNB\AppPackages\CNB_1.2.22.0\CNB_1.2.22.0_x86_x64.appxbundle

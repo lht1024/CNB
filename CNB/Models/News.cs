@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CNB
+﻿namespace CNB
 {
     public class News
     {
-        public string id { get; set; }
-        public string article_id { get; set; }
+        public string comments { get; set; }
+        public string counter { get; set; }
+        public string pubtime { get; set; }
+        public string sid { get; set; }
+        public string summary { get; set; }
+        public string thumb { get; set; }
         public string title { get; set; }
-        public string date { get; set; }
-        public string intro { get; set; }
-        public string source { get; set; }
+        public string topic_logo { get; set; }
     }
 }

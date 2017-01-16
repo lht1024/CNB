@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Text.RegularExpressions;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -23,12 +13,9 @@ namespace CNB
     /// </summary>
     public sealed partial class Page2 : Page
     {
-        
         public Page2()
         {
             this.InitializeComponent();
-
-            FilterSwitch.IsOn = MainPage.Filter.Equals("0") ? false : true;
 
             if (MainPage.IsFirstPageLoad == false)
             {
@@ -50,16 +37,17 @@ namespace CNB
             {
                 MyBlock.Visibility = Visibility.Visible;
                 LoadComments.Visibility = Visibility.Visible;
-                MyDetailSource.Text = MainPage.myDetail.source;
-                MyDetailDate.Text = MainPage.myDetail.date;
+                MyDetailSource.Text = FormatSourceID(MainPage.myDetail.result.source);
+                MyDetailDate.Text = MainPage.myDetail.result.time;
                 MyWebView.Source = new Uri("ms-appdata:///local/DataFile/HTMLPage1.html", UriKind.RelativeOrAbsolute);
             }
-
         }
 
-        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        private string FormatSourceID(string RawText)
         {
-            MainPage.MySetting(FilterSwitch.IsOn?"1":"0");
+            RawText = Regex.Replace(RawText, "<a.+?>", "");
+            RawText = Regex.Replace(RawText, "</a>", "");
+            return RawText;
         }
 
         private void LoadComments_Click(object sender, RoutedEventArgs e)

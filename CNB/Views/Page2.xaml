@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="CNB.Page2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CNB"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <RelativePanel>
+            <Grid RelativePanel.AlignLeftWithPanel="True"
+                          RelativePanel.AlignTopWithPanel="True"
+                          Name="MySourceGrid">
+                <Rectangle Width="150"
+                                   Height="50"
+                                   Fill="LightBlue"
+                                   Name="MyBlock" />
+                <TextBlock  Name="MyDetailSource"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="White" />
+            </Grid>
+            <TextBlock Name="MyDetailDate"
+                       HorizontalAlignment="Right"
+                       Margin="70,18,10,0"
+                       Foreground="Gray"
+                       RelativePanel.RightOf="MySourceGrid"
+                       RelativePanel.AlignTopWithPanel="True"/>
+
+            <Button Name="LoadComments"
+                    Click="LoadComments_Click"
+                    RelativePanel.RightOf="MyDetailDate"
+                    Margin="25,10"
+                    Background="LightBlue"
+                    Foreground="White"
+                    Content="评论"
+                    BorderBrush="White">
+            </Button>
+        </RelativePanel>
+
+        <WebView Name="MyWebView"
+                 Grid.Row="1"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden" />
+    </Grid>
+</Page>

@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 
 namespace CNB
 {
-    class NewsCollectionList : ObservableCollection<News>, ISupportIncrementalLoading
+    internal class NewsCollectionList : ObservableCollection<News>, ISupportIncrementalLoading
     {
         private bool _busy = false;
         private bool _has_more_items = false;
+
+        public NewsCollectionList()
+        {
+            HasMoreItems = true;
+        }
+
         public event DataLoadedEventHandler DataLoaded;
+
         public event DataLoadingEventHandler DataLoading;
 
-        public int TotalCount
-        {
-            get; set;
-        }
         public bool HasMoreItems
         {
             get
@@ -34,20 +35,24 @@ namespace CNB
                 _has_more_items = value;
             }
         }
-        public NewsCollectionList()
+
+        public int TotalCount
         {
-            HasMoreItems = true;
+            get; set;
         }
+
         public void DoRefresh()
         {
             TotalCount = 0;
             Clear();
             HasMoreItems = true;
         }
+
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
             return InnerLoadMoreItemsAsync(count).AsAsyncOperation();
         }
+
         private async Task<LoadMoreItemsResult> InnerLoadMoreItemsAsync(uint expectedCount)
         {
             _busy = true;
@@ -56,50 +61,37 @@ namespace CNB
             try
             {
                     MainPage.myData = await NewsProxy.GetNews(MainPage.myLastArticleId);
-                    MainPage.myLastArticleId = MainPage.myData.Results[MainPage.myData.Results.Count - 1].article_id;
+                    MainPage.myLastArticleId = MainPage.myData.result[MainPage.myData.result.Count - 1].sid;
             }
             catch (Exception)
             {
                 HasMoreItems = false;
             }
 
-
-            if (MainPage.myData != null && MainPage.myData.Results.Any())
+            if (MainPage.myData != null && MainPage.myData.result.Any())
             {
-                actualCount = MainPage.myData.Results.Count;
+                actualCount = MainPage.myData.result.Count;
                 TotalCount += actualCount;
                 HasMoreItems = true;
-                if (MainPage.Filter == "0")
-                    MainPage.myData.Results.ForEach((c) =>
+                foreach (var item in MainPage.myData.result)
+                {
+                    this.Add(new News
                     {
-                        this.Add(new News
-                        {
-                            title = c.title,
-                            date = c.date,
-                            intro = c.intro,
-                            article_id = c.article_id,
-                            source = c.source
-                        });
+                        title = item.title,
+                        pubtime = item.pubtime,
+                        summary = item.summary,
+                        sid = item.sid,
+                        counter = item.counter,
+                        comments = item.comments,
+                        thumb = item.thumb
                     });
-                else
-                    foreach(var item in MainPage.myData.Results)
-                    {
-                        if(item.source != "威锋网")
-                        this.Add(new News
-                        {
-                            title = item.title,
-                            date = item.date,
-                            intro = item.intro,
-                            article_id = item.article_id,
-                            source = item.source
-                        });
-                    }
+                }
             }
             else
             {
                 this.Add(new News
                 {
-                    intro = "似乎并没有网络连接"
+                    summary = "似乎并没有网络连接"
                 });
                 HasMoreItems = false;
             }
