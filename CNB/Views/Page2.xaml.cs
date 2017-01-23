@@ -50,8 +50,9 @@ namespace CNB
             return RawText;
         }
 
-        private void LoadComments_Click(object sender, RoutedEventArgs e)
+        private async void LoadComments_Click(object sender, RoutedEventArgs e)
         {
+            MainPage.myComments = await CommentsProxy.GetResults(MainPage.myDetialArticleId);
             Frame.Navigate(typeof(Page3));
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }

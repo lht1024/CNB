@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -15,19 +15,28 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="420" />
+            <ColumnDefinition Width="460" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <RelativePanel Grid.Row="0"
                        Grid.Column="0">
+            <Button Name="SplitButton"
+                    FontFamily="Segoe MDL2 Assets" 
+                    Content="&#xE700;" 
+                    FontSize="24" 
+                    Height="45"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignTopWithPanel="True"
+                    Background="White"
+                    Click="SplitButton_Click"/>
             <AppBarButton   Label="刷新"
                             Name="Refresh"
                             Icon="RepeatAll"
                             Click="Refresh_Click"
                             IsCompact="True"
-                            RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.AlignTopWithPanel="True" 
+                            RelativePanel.RightOf="SplitButton"
+                            RelativePanel.AlignTopWithPanel="True"
                             Height="45"/>
 
             <TextBlock  Name="MyNewsTotal"
@@ -46,66 +55,151 @@
                             RelativePanel.RightOf="MyNewsTotal"
                             RelativePanel.AlignTopWithPanel="True"
                             Foreground="DarkRed" />
+            <TextBlock Name="MyTag" 
+                       Text="最新资讯"
+                       RelativePanel.RightOf="MyProcessRing"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="10" />
+            <Button Name="SelectButton"
+                    RelativePanel.LeftOf="About"
+                    Content="Microsoft 微软"
+                    Background="White"
+                    Height="45"
+                    Visibility="Collapsed">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Microsoft 微软" Name="TopicA" Click="TopicA_Click" />
+                        <MenuFlyoutItem Text="Google 谷歌" Name="TopicB" Click="TopicB_Click"/>
+                        <MenuFlyoutItem Text="Apple 苹果" Name="TopicC" Click="TopicC_Click"/>
+                        <MenuFlyoutItem Text="Windows10" Name="TopicD" Click="TopicD_Click"/>
+                        <MenuFlyoutItem Text="Sony 索尼" Name="TopicE" Click="TopicE_Click"/>
+                        <MenuFlyoutItem Text="Android 安卓" Name="TopicF" Click="TopicF_Click"/>
+                        <MenuFlyoutItem Text="Samsung 三星" Name="TopicG" Click="TopicG_Click"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <Button Name="RankButton"
+                    RelativePanel.LeftOf="About"
+                    Content="今日最多阅读"
+                    Background="White"
+                    Height="45"
+                    Visibility="Collapsed">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="今日最多阅读" Name="RankA" Click="RankA_Click" />
+                        <MenuFlyoutItem Text="今日热评" Name="RankB" Click="RankB_Click"/>
+                        <MenuFlyoutItem Text="热门推荐" Name="RankC" Click="RankC_Click"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
             <AppBarButton   Label="关于"
                             Name="About"
                             Icon="Help"
                             Click="About_Click"
                             IsCompact="True"
                             RelativePanel.AlignRightWithPanel="True"
-                            RelativePanel.AlignTopWithPanel="True" 
+                            RelativePanel.AlignTopWithPanel="True"
                             Height="45"/>
-
-
         </RelativePanel>
-
-        <ListView   ItemsSource="{x:Bind MyNewsList}"
+        <SplitView DisplayMode="CompactOverlay"
+                   OpenPaneLength="160"
+                   CompactPaneLength="44"
+                   IsPaneOpen="False"
+                   Name="MySplitView"
+                   Grid.Row="1">
+            <SplitView.Pane>
+                <StackPanel>
+                    <ListBox Background="White"
+                             SelectionMode="Single"
+                             SelectionChanged="ListBox_SelectionChanged">
+                        <ListBoxItem Name="NItem" ToolTipService.ToolTip="最新资讯" ToolTipService.Placement="Right">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE128;" FontSize="24" VerticalAlignment="Center" />
+                                <TextBlock Text="最新资讯" FontSize="18" Margin="20,0,0,0" />
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="RItem" ToolTipService.ToolTip="月度Top10" ToolTipService.Placement="Right">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE890;" FontSize="24" VerticalAlignment="Center" />
+                                <TextBlock Text="月度Top10" FontSize="18" Margin="20,0,0,0" />
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="CItem" ToolTipService.ToolTip="热门评论" ToolTipService.Placement="Right">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE19D;" FontSize="24" VerticalAlignment="Center" />
+                                <TextBlock Text="热门评论" FontSize="18" Margin="20,0,0,0" />
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="TItem" ToolTipService.ToolTip="排行" ToolTipService.Placement="Right">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEB05;" FontSize="24" VerticalAlignment="Center" />
+                                <TextBlock Text="排行" FontSize="18" Margin="20,0,0,0" />
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="TRItem" ToolTipService.ToolTip="新闻主题" ToolTipService.Placement="Right">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xED1E;" FontSize="24" VerticalAlignment="Center" />
+                                <TextBlock Text="新闻主题" FontSize="18" Margin="20,0,0,0" />
+                            </StackPanel>
+                        </ListBoxItem>
+                    </ListBox>
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <ListView   ItemsSource="{x:Bind MyNewsList}"
                     Name="MyListView"
                     IsItemClickEnabled="True"
                     ItemClick="MyListView_ItemClick"
-                    ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                    Grid.Row="1"
-                    Grid.Column="0">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:News">
-                    <StackPanel HorizontalAlignment="Left"
-                                Orientation="Vertical"
-                                BorderThickness="5">
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:News">
+                            <StackPanel HorizontalAlignment="Left"
+                                        Orientation="Vertical"
+                                        BorderThickness="5">
 
-                        <TextBlock  FontSize="18"
-                                    Margin="5"
-                                    FontWeight="Bold"
-                                    Text="{x:Bind title}"
-                                    TextWrapping="Wrap"
-                                    HorizontalAlignment="Left"
-                                    Foreground="DarkRed" />
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock  FontSize="10"
-                                        Text="{x:Bind pubtime}"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        Margin="10,0" />
-                            <StackPanel Orientation="Horizontal" Margin="10,0">
-                                <TextBlock FontSize="10"
-                                           Text="{x:Bind comments}" />
-                                <TextBlock Text="条评论"
-                                           FontSize="10" />
+                                <TextBlock  FontSize="18"
+                                            Margin="5"
+                                            FontWeight="Bold"
+                                            Text="{x:Bind title}"
+                                            TextWrapping="Wrap"
+                                            HorizontalAlignment="Left"
+                                            Foreground="DarkRed" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock  FontSize="10"
+                                                Text="{x:Bind pubtime}"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Margin="20,0" />
+                                    
+                                        <TextBlock FontSize="10"
+                                                   Text="{x:Bind comments}" 
+                                                   Margin="0,0,10,0"/>
+                                    
+                                    
+                                        <TextBlock FontSize="10"
+                                                   Text="{x:Bind counter}" />
+                                    
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock  FontSize="14"
+                                                Margin="5"
+                                                Text="{x:Bind summary}"
+                                                TextWrapping="Wrap"
+                                                Width="275"
+                                                HorizontalAlignment="Left" />
+                                    <Image Source="{x:Bind thumb}"
+                                           Stretch="Uniform"
+                                           Width="95"
+                                           Height="95"
+                                           VerticalAlignment="Center"/>
+                                </StackPanel>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="10"
-                                           Text="{x:Bind counter}" />
-                                <TextBlock Text="次阅读"
-                                           FontSize="10" />
-                            </StackPanel>
-                        </StackPanel>
-                        <TextBlock  FontSize="14"
-                                    Margin="5"
-                                    Text="{x:Bind summary}"
-                                    TextWrapping="Wrap"
-                                    HorizontalAlignment="Left" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SplitView.Content>
+        </SplitView>
 
         <Frame  Name="NewsFrame"
                 Grid.Row="0"

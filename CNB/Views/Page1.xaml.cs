@@ -47,7 +47,15 @@ namespace CNB
             MainPage.myDetialArticleId = mySeleted.sid;
             if (!string.IsNullOrEmpty(MainPage.myDetialArticleId))
             {
-                MainPage.myDetail = await NewsDetailProxy.GetNewsDetail(mySeleted.sid);
+                try
+                {
+                    MainPage.myDetail = await NewsDetailProxy.GetNewsDetail(mySeleted.sid);
+                }
+                catch
+                {
+
+                }
+
 
                 var filtler = Clear("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset = utf-8\"></head>" +
                     MainPage.myDetail.result.hometext + MainPage.myDetail.result.bodytext);
@@ -102,21 +110,180 @@ namespace CNB
             MainPage.IsFirstPageLoad = false;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
+
+        private void SplitButton_Click(object sender, RoutedEventArgs e)
+        {
+            MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+        }
+
+        private async void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainPage.Count = false;
+            SelectButton.Visibility = Visibility.Collapsed;
+            RankButton.Visibility = Visibility.Collapsed;
+            if (RItem.IsSelected)
+            {
+                MyTag.Text = "月度Top10";
+                MainPage.Filter = 1;
+            }
+                
+            else if (CItem.IsSelected)
+            {
+                MyTag.Text = "热门评论";
+                MainPage.Filter = 2;
+            }
+            else if (TItem.IsSelected)
+            {
+                MyTag.Text = "";
+                RankButton.Visibility = Visibility.Visible;
+                MainPage.Filter = 3;
+            }
+            else if (TRItem.IsSelected)
+            {
+                MyTag.Text = "";
+                SelectButton.Visibility = Visibility.Visible;
+                MainPage.Filter = 4;
+            }
+
+            else
+            {
+                MyTag.Text = "新闻资讯";
+                MainPage.Filter = 0;
+            }
+            
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            MyNewsList.DoRefresh();
+            await MyListView.LoadMoreItemsAsync();
+
+        }
+
+        private async void TopicA_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 0)
+            {
+                MainPage.TopicSelected = 0;
+                SelectButton.Content = "Microsoft 微软";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void TopicB_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 1)
+            {
+                MainPage.TopicSelected = 1;
+                SelectButton.Content = "Google 谷歌";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void TopicC_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 2)
+            {
+                MainPage.TopicSelected = 2;
+                SelectButton.Content = "Apple 苹果";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            } 
+        }
+
+        private async void TopicD_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 3)
+            {
+                MainPage.TopicSelected = 3;
+                SelectButton.Content = "Windows10";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }  
+        }
+
+        private async void TopicE_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 4)
+            {
+                MainPage.TopicSelected = 4;
+                SelectButton.Content = "Sony 索尼";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }  
+        }
+
+        private async void TopicF_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 5)
+            {
+                MainPage.TopicSelected = 5;
+                SelectButton.Content = "Android 安卓";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            } 
+        }
+
+        private async void TopicG_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 6)
+            {
+                MainPage.TopicSelected = 6;
+                SelectButton.Content = "Samsung 三星";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void RankA_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.RankSelected != 0)
+            {
+                MainPage.RankSelected = 0;
+                MainPage.Count = false;
+                RankButton.Content = "今日最多阅读";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void RankB_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.RankSelected != 1)
+            {
+                MainPage.RankSelected = 1;
+                MainPage.Count = false;
+                RankButton.Content = "今日热评";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void RankC_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.RankSelected != 2)
+            {
+                MainPage.RankSelected = 2;
+                RankButton.Content = "热门推荐";
+                MainPage.Count = false;
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
         /*   public static string ClearHtmlCode(string text)
-           {
-               text = text.Trim();
-               if (string.IsNullOrEmpty(text))
-                   return string.Empty;
-               text = Regex.Replace(text, "[/s]{2,}", " ");    //two or more spaces
-               text = Regex.Replace(text, "(<[b|B][r|R]/*>)+|(<[p|P](.|/n)*?>)", " ");    //<br>
-               text = Regex.Replace(text,"</p>","\n");
-               text = Regex.Replace(text, "(/s*&[n|N][b|B][s|S][p|P];/s*)+", " ");    //
-               text = Regex.Replace(text, "<(.|/n)*?>", string.Empty);    //any other tags
-               text = Regex.Replace(text, "/<//?[^>]*>/g", string.Empty);    //any other tags
-               text = Regex.Replace(text, "/[    | ]* /g", string.Empty);    //any other tags
-             //  text = text.Replace("'", "''");
-               text = Regex.Replace(text, "/ [/s| |    ]* /g", string.Empty);
-               return text;
-           }*/
+{
+text = text.Trim();
+if (string.IsNullOrEmpty(text))
+return string.Empty;
+text = Regex.Replace(text, "[/s]{2,}", " ");    //two or more spaces
+text = Regex.Replace(text, "(<[b|B][r|R]/*>)+|(<[p|P](.|/n)*?>)", " ");    //<br>
+text = Regex.Replace(text,"</p>","\n");
+text = Regex.Replace(text, "(/s*&[n|N][b|B][s|S][p|P];/s*)+", " ");    //
+text = Regex.Replace(text, "<(.|/n)*?>", string.Empty);    //any other tags
+text = Regex.Replace(text, "/<//?[^>]*>/g", string.Empty);    //any other tags
+text = Regex.Replace(text, "/[    | ]* /g", string.Empty);    //any other tags
+//text = text.Replace("'", "''");
+text = Regex.Replace(text, "/ [/s| |    ]* /g", string.Empty);
+return text;
+}*/
     }
 }

@@ -12,7 +12,7 @@ namespace CNB
 
     public sealed partial class MainPage : Page
     {
-        //public static string Filter;
+        public static int Filter = 0;
         public static bool IsAboutClick = false;
         public static bool IsFirstPageLoad = false;
         public static bool IsHotCommentsSelected = false;
@@ -21,6 +21,9 @@ namespace CNB
         public static LNewsContentRaw myDetail;
         public static string myDetialArticleId;
         public static string myLastArticleId = "";
+        public static bool Count = false;
+        public static int TopicSelected = 0;
+        public static int RankSelected = 0;
 
         public MainPage()
         {

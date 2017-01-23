@@ -1,4 +1,5 @@
-﻿using Windows.UI;
+﻿using System.Collections.ObjectModel;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -20,7 +21,7 @@ namespace CNB
             B = 0
         };
 
-        private CommentsCollectionList MyCommentsList;
+        private ObservableCollection<Comment> MyCommentsList;
 
         private Color white = new Color
         {
@@ -33,7 +34,7 @@ namespace CNB
         public Page3()
         {
             this.InitializeComponent();
-            MyCommentsList = new CommentsCollectionList();
+            MyCommentsList = new ObservableCollection<Comment>();
 
             if (MainPage.IsHotCommentsSelected == true)
             {
@@ -50,6 +51,7 @@ namespace CNB
                 AllComments.Foreground = new SolidColorBrush(white);
                 AllComments.Background = new SolidColorBrush(darkRed);
             }
+            SetAllComments();
         }
 
         private void AllComments_Click(object sender, RoutedEventArgs e)
@@ -61,7 +63,8 @@ namespace CNB
                 HotComments.Background = new SolidColorBrush(white);
                 AllComments.Foreground = new SolidColorBrush(white);
                 AllComments.Background = new SolidColorBrush(darkRed);
-                MyCommentsList.DoRefresh();
+                MyCommentsList.Clear();
+                SetAllComments();
             }
         }
 
@@ -74,7 +77,75 @@ namespace CNB
                 HotComments.Background = new SolidColorBrush(darkRed);
                 AllComments.Foreground = new SolidColorBrush(darkRed);
                 AllComments.Background = new SolidColorBrush(white);
-                MyCommentsList.DoRefresh();
+                MyCommentsList.Clear();
+                SetHotComments();
+            }
+        }
+
+        private void SetAllComments()
+        {
+            if (MainPage.myComments.result != null && MainPage.myComments.result.Count != 0)
+            {
+                foreach (var c in MainPage.myComments.result)
+                {
+                    MyCommentsList.Add(new Comment
+                    {
+                        //username = (c.username.Contains("") ? "匿名用户" : c.username),
+                        //content = c.content,
+                        //created_time = c.created_time,
+                        name = (c.name.Contains("") ? "匿名用户" : c.name),
+                        comment = c.comment,
+                        date = c.date,
+                        against = "反对(" + c.against + ")",
+                        support = "支持(" + c.support + ")",
+                        tid = c.tid
+                    });
+                }
+            }
+            else
+            {
+                MyCommentsList.Add(new Comment
+                {
+                    comment = "似乎没有人评论"
+                });
+            }
+             
+        }
+
+        private void SetHotComments()
+        {
+            if (MainPage.myComments.result != null && MainPage.myComments.result.Count != 0)
+            {
+                MainPage.myComments.result.ForEach((c) =>
+                {
+                    if (int.Parse(c.support) > 7 || int.Parse(c.against) > 13)
+                        MyCommentsList.Add(new Comment
+                        {
+                            //username = (c.username.Contains("") ? "匿名用户" : c.username),
+                            //content = c.content,
+                            //created_time = c.created_time,
+                            name = (c.name.Contains("") ? "匿名用户" : c.name),
+                            comment = c.comment,
+                            date = c.date,
+                            against = "反对(" + c.against + ")",
+                            support = "支持(" + c.support + ")",
+                            tid = c.tid
+                        });
+                });
+                if (MyCommentsList.Count == 0)
+                {
+                    MyCommentsList.Add(new Comment
+                    {
+                        comment = "似乎没有人评论"
+                    });
+                }
+            }
+            else
+            {
+                MyCommentsList.Add(new Comment
+                {
+                    comment = "似乎没有人评论"
+                });
             }
         }
     }

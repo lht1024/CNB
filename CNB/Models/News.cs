@@ -1,4 +1,5 @@
-﻿namespace CNB
+﻿using Windows.UI.Xaml.Media;
+namespace CNB
 {
     public class News
     {
@@ -7,8 +8,7 @@
         public string pubtime { get; set; }
         public string sid { get; set; }
         public string summary { get; set; }
-        public string thumb { get; set; }
+        public ImageSource thumb { get; set; }
         public string title { get; set; }
-        public string topic_logo { get; set; }
     }
 }

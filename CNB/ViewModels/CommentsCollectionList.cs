@@ -12,7 +12,7 @@ namespace CNB
         private bool _busy = false;
         private int _current_page = 1;
         private bool _has_more_items = false;
-
+        private static bool IsComLoad = false;
         public CommentsCollectionList()
         {
             HasMoreItems = true;
@@ -57,56 +57,74 @@ namespace CNB
             var actualCount = 0;
             try
             {
-                MainPage.myComments = await CommentsProxy.GetResults((_current_page).ToString(), MainPage.myDetialArticleId);
+                if (IsComLoad == false)
+                {
+                    // MainPage.myComments = await CommentsProxy.GetResults((_current_page).ToString(), MainPage.myDetialArticleId);
+                    MainPage.myComments = await CommentsProxy.GetResults(MainPage.myDetialArticleId);
+                    IsComLoad = true;
+                    if (MainPage.myComments.result != null && MainPage.myComments.result.Any())
+                    {
+                        actualCount = MainPage.myComments.result.Count;
+                        TotalCount += actualCount;
+                        _current_page++;
+                        HasMoreItems = true;
+                        if (MainPage.IsHotCommentsSelected == false)
+                            foreach (var c in MainPage.myComments.result)
+                            {
+                                this.Add(new Comment
+                                {
+                                    //username = (c.username.Contains("") ? "匿名用户" : c.username),
+                                    //content = c.content,
+                                    //created_time = c.created_time,
+                                    name = (c.name.Contains("") ? "匿名用户" : c.name),
+                                    comment = c.comment,
+                                    date = c.date,
+                                    against = "反对(" + c.against + ")",
+                                    support = "支持(" + c.support + ")",
+                                    tid = c.tid
+                                });
+                            }
+                        else
+                            MainPage.myComments.result.ForEach((c) =>
+                            {
+                                if (int.Parse(c.support) > 7 || int.Parse(c.against) > 13)
+                                    this.Add(new Comment
+                                    {
+                                        //username = (c.username.Contains("") ? "匿名用户" : c.username),
+                                        //content = c.content,
+                                        //created_time = c.created_time,
+                                        name = (c.name.Contains("") ? "匿名用户" : c.name),
+                                        comment = c.comment,
+                                        date = c.date,
+                                        against = "反对(" + c.against + ")",
+                                        support = "支持(" + c.support + ")",
+                                        tid = c.tid
+                                    });
+                            });
+                    }
+                    else
+                    {
+                        if (this.Count == 0)
+                            this.Add(new Comment
+                            {
+                                //content = "似乎没有人评论"
+                                comment = "似乎没有人评论"
+                            });
+                        HasMoreItems = false;
+                    }
+                }
+                else
+                {
+                    HasMoreItems = false;
+                }
+                
             }
             catch (Exception)
             {
                 HasMoreItems = false;
             }
 
-            if (MainPage.myComments.result != null && MainPage.myComments.result.Any())
-            {
-                actualCount = MainPage.myComments.result.Count;
-                TotalCount += actualCount;
-                _current_page++;
-                HasMoreItems = true;
-                if (MainPage.IsHotCommentsSelected == false)
-                    MainPage.myComments.result.ForEach((c) =>
-                    {
-                        this.Add(new Comment
-                        {
-                            username = (c.username.Contains("") ? "匿名用户" : c.username),
-                            content = c.content,
-                            created_time = c.created_time,
-                            against = "反对(" + c.against + ")",
-                            support = "支持(" + c.support + ")",
-                            tid = c.tid
-                        });
-                    });
-                else
-                    MainPage.myComments.result.ForEach((c) =>
-                    {
-                        if (int.Parse(c.support) > 7 || int.Parse(c.against) > 13)
-                            this.Add(new Comment
-                            {
-                                username = (c.username.Contains("") ? "匿名用户" : c.username),
-                                content = c.content,
-                                created_time = c.created_time,
-                                against = "反对(" + c.against + ")",
-                                support = "支持(" + c.support + ")",
-                                tid = c.tid
-                            });
-                    });
-            }
-            else
-            {
-                if (this.Count == 0)
-                    this.Add(new Comment
-                    {
-                        content = "似乎没有人评论"
-                    });
-                HasMoreItems = false;
-            }
+            
 
             _busy = false;
             return new LoadMoreItemsResult
