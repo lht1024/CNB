@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using CNB.Views;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -38,7 +38,68 @@ namespace CNB
             return text;
         }
 
-        
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage.IsAboutClick = true;
+            NewsFrame.Navigate(typeof(Page2));
+            MainPage.IsFirstPageLoad = false;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+        }
+
+        private async void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MainPage.Count = false;
+            SelectButton.Visibility = Visibility.Collapsed;
+            RankButton.Visibility = Visibility.Collapsed;
+            if (RItem.IsSelected)
+            {
+                MyTag.Text = "月度Top10";
+                MainPage.Filter = 1;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+            else if (CItem.IsSelected)
+            {
+                MyTag.Text = "热门评论";
+                MainPage.Filter = 2;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+            else if (TItem.IsSelected)
+            {
+                MyTag.Text = "";
+                RankButton.Visibility = Visibility.Visible;
+                MainPage.Filter = 3;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+            else if (TRItem.IsSelected)
+            {
+                MyTag.Text = "";
+                SelectButton.Visibility = Visibility.Visible;
+                MainPage.Filter = 4;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+            else if (SetItem.IsSelected)
+            {
+                NewsFrame.Navigate(typeof(Page4));
+                SetItem.IsSelected = false;
+                NItem.IsSelected = true;
+            }
+            else
+            {
+                MyTag.Text = "新闻资讯";
+                MainPage.Filter = 0;
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
 
         private async void MyListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -53,12 +114,14 @@ namespace CNB
                 }
                 catch
                 {
-
                 }
+                var ls = "p{letter-spacing:" + MainPage.MyLeSpacing + "px}";
+                var pp = "p{padding:" + MainPage.MyPaPadding + "px 0}";
+                var fz = "p{ font-size:" + MainPage.MyFontSize + "px}";
+                var ff = "p{ font-family:\"微软雅黑\"}";
 
-
-                var filtler = Clear("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset = utf-8\"></head>" +
-                    MainPage.myDetail.result.hometext + MainPage.myDetail.result.bodytext);
+                var headtext = String.Format("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset = utf-8\"><style>{0}{1}{2}{3}</style></head>", ls, pp, fz, ff);
+                var filtler = Clear(headtext + MainPage.myDetail.result.hometext + MainPage.myDetail.result.bodytext);
                 await WriteHtml(filtler);
                 NewsFrame.Navigate(typeof(Page2));
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
@@ -82,155 +145,6 @@ namespace CNB
             {
                 NewsFrame.GoBack();
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            }
-        }
-
-        private async void Refresh_Click(object sender, RoutedEventArgs e)
-        {
-            MainPage.IsFirstPageLoad = false;
-            NewsFrame.Navigate(typeof(Page2));
-
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            MyNewsList.DoRefresh();
-            await MyListView.LoadMoreItemsAsync();
-        }
-
-        private async Task WriteHtml(string filtler)
-        {
-            IStorageFolder local = ApplicationData.Current.LocalFolder;
-            IStorageFolder dataFolder = await local.CreateFolderAsync("DataFile", CreationCollisionOption.OpenIfExists);
-            IStorageFile file = await dataFolder.CreateFileAsync("HTMLPage1.html", CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, filtler);
-        }
-
-        private void About_Click(object sender, RoutedEventArgs e)
-        {
-            MainPage.IsAboutClick = true;
-            NewsFrame.Navigate(typeof(Page2));
-            MainPage.IsFirstPageLoad = false;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-        }
-
-        private void SplitButton_Click(object sender, RoutedEventArgs e)
-        {
-            MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
-        }
-
-        private async void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            MainPage.Count = false;
-            SelectButton.Visibility = Visibility.Collapsed;
-            RankButton.Visibility = Visibility.Collapsed;
-            if (RItem.IsSelected)
-            {
-                MyTag.Text = "月度Top10";
-                MainPage.Filter = 1;
-            }
-                
-            else if (CItem.IsSelected)
-            {
-                MyTag.Text = "热门评论";
-                MainPage.Filter = 2;
-            }
-            else if (TItem.IsSelected)
-            {
-                MyTag.Text = "";
-                RankButton.Visibility = Visibility.Visible;
-                MainPage.Filter = 3;
-            }
-            else if (TRItem.IsSelected)
-            {
-                MyTag.Text = "";
-                SelectButton.Visibility = Visibility.Visible;
-                MainPage.Filter = 4;
-            }
-
-            else
-            {
-                MyTag.Text = "新闻资讯";
-                MainPage.Filter = 0;
-            }
-            
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            MyNewsList.DoRefresh();
-            await MyListView.LoadMoreItemsAsync();
-
-        }
-
-        private async void TopicA_Click(object sender, RoutedEventArgs e)
-        {
-            if (MainPage.TopicSelected != 0)
-            {
-                MainPage.TopicSelected = 0;
-                SelectButton.Content = "Microsoft 微软";
-                MyNewsList.DoRefresh();
-                await MyListView.LoadMoreItemsAsync();
-            }
-        }
-
-        private async void TopicB_Click(object sender, RoutedEventArgs e)
-        {
-            if (MainPage.TopicSelected != 1)
-            {
-                MainPage.TopicSelected = 1;
-                SelectButton.Content = "Google 谷歌";
-                MyNewsList.DoRefresh();
-                await MyListView.LoadMoreItemsAsync();
-            }
-        }
-
-        private async void TopicC_Click(object sender, RoutedEventArgs e)
-        {
-            if (MainPage.TopicSelected != 2)
-            {
-                MainPage.TopicSelected = 2;
-                SelectButton.Content = "Apple 苹果";
-                MyNewsList.DoRefresh();
-                await MyListView.LoadMoreItemsAsync();
-            } 
-        }
-
-        private async void TopicD_Click(object sender, RoutedEventArgs e)
-        {
-            if (MainPage.TopicSelected != 3)
-            {
-                MainPage.TopicSelected = 3;
-                SelectButton.Content = "Windows10";
-                MyNewsList.DoRefresh();
-                await MyListView.LoadMoreItemsAsync();
-            }  
-        }
-
-        private async void TopicE_Click(object sender, RoutedEventArgs e)
-        {
-            if (MainPage.TopicSelected != 4)
-            {
-                MainPage.TopicSelected = 4;
-                SelectButton.Content = "Sony 索尼";
-                MyNewsList.DoRefresh();
-                await MyListView.LoadMoreItemsAsync();
-            }  
-        }
-
-        private async void TopicF_Click(object sender, RoutedEventArgs e)
-        {
-            if (MainPage.TopicSelected != 5)
-            {
-                MainPage.TopicSelected = 5;
-                SelectButton.Content = "Android 安卓";
-                MyNewsList.DoRefresh();
-                await MyListView.LoadMoreItemsAsync();
-            } 
-        }
-
-        private async void TopicG_Click(object sender, RoutedEventArgs e)
-        {
-            if (MainPage.TopicSelected != 6)
-            {
-                MainPage.TopicSelected = 6;
-                SelectButton.Content = "Samsung 三星";
-                MyNewsList.DoRefresh();
-                await MyListView.LoadMoreItemsAsync();
             }
         }
 
@@ -269,6 +183,107 @@ namespace CNB
                 await MyListView.LoadMoreItemsAsync();
             }
         }
+
+        private async void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            MainPage.IsFirstPageLoad = false;
+            NewsFrame.Navigate(typeof(Page2));
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            MyNewsList.DoRefresh();
+            await MyListView.LoadMoreItemsAsync();
+        }
+
+        private void SplitButton_Click(object sender, RoutedEventArgs e)
+        {
+            MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+        }
+
+        private async void TopicA_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 0)
+            {
+                MainPage.TopicSelected = 0;
+                SelectButton.Content = "Microsoft 微软";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void TopicB_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 1)
+            {
+                MainPage.TopicSelected = 1;
+                SelectButton.Content = "Google 谷歌";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void TopicC_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 2)
+            {
+                MainPage.TopicSelected = 2;
+                SelectButton.Content = "Apple 苹果";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void TopicD_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 3)
+            {
+                MainPage.TopicSelected = 3;
+                SelectButton.Content = "Windows10";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void TopicE_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 4)
+            {
+                MainPage.TopicSelected = 4;
+                SelectButton.Content = "Sony 索尼";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void TopicF_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 5)
+            {
+                MainPage.TopicSelected = 5;
+                SelectButton.Content = "Android 安卓";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async void TopicG_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.TopicSelected != 6)
+            {
+                MainPage.TopicSelected = 6;
+                SelectButton.Content = "Samsung 三星";
+                MyNewsList.DoRefresh();
+                await MyListView.LoadMoreItemsAsync();
+            }
+        }
+
+        private async Task WriteHtml(string filtler)
+        {
+            IStorageFolder local = ApplicationData.Current.LocalFolder;
+            IStorageFolder dataFolder = await local.CreateFolderAsync("DataFile", CreationCollisionOption.OpenIfExists);
+            IStorageFile file = await dataFolder.CreateFileAsync("HTMLPage1.html", CreationCollisionOption.ReplaceExisting);
+            await FileIO.WriteTextAsync(file, filtler);
+        }
+
         /*   public static string ClearHtmlCode(string text)
 {
 text = text.Trim();

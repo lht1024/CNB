@@ -38,12 +38,12 @@ namespace CNB
 
             //public string pid { get; set; }
 
+            //public string username { get; set; }
+            public string name { get; set; }
+
             public string support { get; set; }
 
             public string tid { get; set; }
-
-            //public string username { get; set; }
-            public string name { get; set; }
         }
 
         public class LCommentsRaw

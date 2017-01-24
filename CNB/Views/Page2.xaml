@@ -30,7 +30,7 @@
                        Margin="70,18,10,0"
                        Foreground="Gray"
                        RelativePanel.RightOf="MySourceGrid"
-                       RelativePanel.AlignTopWithPanel="True"/>
+                       RelativePanel.AlignTopWithPanel="True" />
 
             <Button Name="LoadComments"
                     Click="LoadComments_Click"

@@ -22,14 +22,14 @@
         <RelativePanel Grid.Row="0"
                        Grid.Column="0">
             <Button Name="SplitButton"
-                    FontFamily="Segoe MDL2 Assets" 
-                    Content="&#xE700;" 
-                    FontSize="24" 
+                    FontFamily="Segoe MDL2 Assets"
+                    Content="&#xE700;"
+                    FontSize="24"
                     Height="45"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignTopWithPanel="True"
                     Background="White"
-                    Click="SplitButton_Click"/>
+                    Click="SplitButton_Click" />
             <AppBarButton   Label="刷新"
                             Name="Refresh"
                             Icon="RepeatAll"
@@ -37,7 +37,7 @@
                             IsCompact="True"
                             RelativePanel.RightOf="SplitButton"
                             RelativePanel.AlignTopWithPanel="True"
-                            Height="45"/>
+                            Height="45" />
 
             <TextBlock  Name="MyNewsTotal"
                         FontSize="20"
@@ -55,7 +55,7 @@
                             RelativePanel.RightOf="MyNewsTotal"
                             RelativePanel.AlignTopWithPanel="True"
                             Foreground="DarkRed" />
-            <TextBlock Name="MyTag" 
+            <TextBlock Name="MyTag"
                        Text="最新资讯"
                        RelativePanel.RightOf="MyProcessRing"
                        FontSize="20"
@@ -70,12 +70,12 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Microsoft 微软" Name="TopicA" Click="TopicA_Click" />
-                        <MenuFlyoutItem Text="Google 谷歌" Name="TopicB" Click="TopicB_Click"/>
-                        <MenuFlyoutItem Text="Apple 苹果" Name="TopicC" Click="TopicC_Click"/>
-                        <MenuFlyoutItem Text="Windows10" Name="TopicD" Click="TopicD_Click"/>
-                        <MenuFlyoutItem Text="Sony 索尼" Name="TopicE" Click="TopicE_Click"/>
-                        <MenuFlyoutItem Text="Android 安卓" Name="TopicF" Click="TopicF_Click"/>
-                        <MenuFlyoutItem Text="Samsung 三星" Name="TopicG" Click="TopicG_Click"/>
+                        <MenuFlyoutItem Text="Google 谷歌" Name="TopicB" Click="TopicB_Click" />
+                        <MenuFlyoutItem Text="Apple 苹果" Name="TopicC" Click="TopicC_Click" />
+                        <MenuFlyoutItem Text="Windows10" Name="TopicD" Click="TopicD_Click" />
+                        <MenuFlyoutItem Text="Sony 索尼" Name="TopicE" Click="TopicE_Click" />
+                        <MenuFlyoutItem Text="Android 安卓" Name="TopicF" Click="TopicF_Click" />
+                        <MenuFlyoutItem Text="Samsung 三星" Name="TopicG" Click="TopicG_Click" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
@@ -88,8 +88,8 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="今日最多阅读" Name="RankA" Click="RankA_Click" />
-                        <MenuFlyoutItem Text="今日热评" Name="RankB" Click="RankB_Click"/>
-                        <MenuFlyoutItem Text="热门推荐" Name="RankC" Click="RankC_Click"/>
+                        <MenuFlyoutItem Text="今日热评" Name="RankB" Click="RankB_Click" />
+                        <MenuFlyoutItem Text="热门推荐" Name="RankC" Click="RankC_Click" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
@@ -100,7 +100,7 @@
                             IsCompact="True"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"
-                            Height="45"/>
+                            Height="45" />
         </RelativePanel>
         <SplitView DisplayMode="CompactOverlay"
                    OpenPaneLength="160"
@@ -143,6 +143,12 @@
                                 <TextBlock Text="新闻主题" FontSize="18" Margin="20,0,0,0" />
                             </StackPanel>
                         </ListBoxItem>
+                        <ListBoxItem Name="SetItem" ToolTipService.ToolTip="设置" ToolTipService.Placement="Right">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE115;" FontSize="24" VerticalAlignment="Center" />
+                                <TextBlock Text="设置" FontSize="18" Margin="20,0,0,0" />
+                            </StackPanel>
+                        </ListBoxItem>
                     </ListBox>
                 </StackPanel>
             </SplitView.Pane>
@@ -171,15 +177,13 @@
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Center"
                                                 Margin="20,0" />
-                                    
-                                        <TextBlock FontSize="10"
-                                                   Text="{x:Bind comments}" 
-                                                   Margin="0,0,10,0"/>
-                                    
-                                    
-                                        <TextBlock FontSize="10"
+
+                                    <TextBlock FontSize="10"
+                                                   Text="{x:Bind comments}"
+                                                   Margin="0,0,10,0" />
+
+                                    <TextBlock FontSize="10"
                                                    Text="{x:Bind counter}" />
-                                    
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock  FontSize="14"
@@ -192,7 +196,7 @@
                                            Stretch="Uniform"
                                            Width="95"
                                            Height="95"
-                                           VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center" />
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>

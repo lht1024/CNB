@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml.Media;
+
 namespace CNB
 {
     public class News

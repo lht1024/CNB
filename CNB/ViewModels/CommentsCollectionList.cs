@@ -9,10 +9,11 @@ namespace CNB
 {
     internal class CommentsCollectionList : ObservableCollection<Comment>, ISupportIncrementalLoading
     {
+        private static bool IsComLoad = false;
         private bool _busy = false;
         private int _current_page = 1;
         private bool _has_more_items = false;
-        private static bool IsComLoad = false;
+
         public CommentsCollectionList()
         {
             HasMoreItems = true;
@@ -117,14 +118,11 @@ namespace CNB
                 {
                     HasMoreItems = false;
                 }
-                
             }
             catch (Exception)
             {
                 HasMoreItems = false;
             }
-
-            
 
             _busy = false;
             return new LoadMoreItemsResult

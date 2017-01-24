@@ -45,7 +45,6 @@ namespace CNB
             }
             else
             {
-                
                 HotComments.Foreground = new SolidColorBrush(darkRed);
                 HotComments.Background = new SolidColorBrush(white);
                 AllComments.Foreground = new SolidColorBrush(white);
@@ -109,7 +108,6 @@ namespace CNB
                     comment = "似乎没有人评论"
                 });
             }
-             
         }
 
         private void SetHotComments()
