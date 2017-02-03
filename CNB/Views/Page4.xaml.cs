@@ -17,6 +17,7 @@ namespace CNB.Views
         {
             this.InitializeComponent();
             Update();
+            MyConDirSwitch.IsOn = (MainPage.MyCommentDirection == "0") ? true : false; 
             MyFontSizeSlider.Value = Convert.ToDouble(MainPage.MyFontSize);
             MyLeSpacingSlider.Value = Convert.ToDouble(MainPage.MyLeSpacing);
             MyPaPaddingSlider.Value = Convert.ToDouble(MainPage.MyPaPadding);
@@ -75,6 +76,19 @@ namespace CNB.Views
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             Update(); ;
+        }
+
+        private void MyConDirSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (MyConDirSwitch.IsOn)
+            {
+                MainPage.SetMySetting("0", "MyConDir");
+            }
+            else
+            {
+                MainPage.SetMySetting("1", "MyConDir");
+            }
+
         }
     }
 }

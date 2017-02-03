@@ -27,6 +27,7 @@ namespace CNB
         public static string MyPaPadding;
         public static int RankSelected = 0;
         public static int TopicSelected = 0;
+        public static string MyCommentDirection;
 
         public MainPage()
         {
@@ -51,6 +52,15 @@ namespace CNB
                 MainPage.MyFontSize = "16";
                 MainPage.MyPaPadding = "0";
                 MainPage.MyLeSpacing = "0";
+            }
+            if (localSettings.Values.ContainsKey("MyConDir"))
+            {
+                MainPage.MyCommentDirection = localSettings.Values["MyConDir"].ToString();
+            }
+            else
+            {
+                localSettings.Values["MyConDir"] = "0";
+                MainPage.MyCommentDirection = "0";
             }
         }
 

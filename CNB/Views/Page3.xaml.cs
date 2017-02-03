@@ -34,6 +34,14 @@ namespace CNB
         public Page3()
         {
             this.InitializeComponent();
+            if (MainPage.MyCommentDirection == "0")
+            {
+                ReverseMyContent.Content = "正序排列";
+            }
+            else
+            {
+                ReverseMyContent.Content = "倒序排列";
+            }
             MyCommentsList = new ObservableCollection<Comment>();
 
             if (MainPage.IsHotCommentsSelected == true)
@@ -83,6 +91,7 @@ namespace CNB
 
         private void SetAllComments()
         {
+            ReverseMyContent.Visibility = Visibility.Visible;
             if (MainPage.myComments.result != null && MainPage.myComments.result.Count != 0)
             {
                 foreach (var c in MainPage.myComments.result)
@@ -100,6 +109,18 @@ namespace CNB
                         tid = c.tid
                     });
                 }
+                if (MyCommentsList.Count > 1)
+                {
+                    if (MainPage.MyCommentDirection == "1")
+                    {
+                        MyReverse();
+                    }
+                }
+                else
+                {
+                    ReverseMyContent.Visibility = Visibility.Collapsed;
+                }
+                
             }
             else
             {
@@ -107,6 +128,7 @@ namespace CNB
                 {
                     comment = "似乎没有人评论"
                 });
+                ReverseMyContent.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -137,6 +159,18 @@ namespace CNB
                         comment = "似乎没有人评论"
                     });
                 }
+                if (MyCommentsList.Count > 1)
+                {
+                    if (MainPage.MyCommentDirection == "1")
+                    {
+                        MyReverse();
+                    }
+                }
+                else
+                {
+                    ReverseMyContent.Visibility = Visibility.Collapsed;
+                }
+                
             }
             else
             {
@@ -144,6 +178,34 @@ namespace CNB
                 {
                     comment = "似乎没有人评论"
                 });
+                ReverseMyContent.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void ReverseMyContent_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainPage.MyCommentDirection == "0")
+            {
+                MainPage.MyCommentDirection = "1";
+                ReverseMyContent.Content = "倒序排列";
+            }
+            else
+            {
+                MainPage.MyCommentDirection = "0";
+                ReverseMyContent.Content = "正序排列";
+            }
+            MyReverse();
+        }
+
+        private void MyReverse()
+        {
+            Comment t = new Comment();
+            var num = MyCommentsList.Count;
+            for (int i = 0; i < num / 2; i++)
+            {
+                t = MyCommentsList[i];
+                MyCommentsList[i] = MyCommentsList[num - i - 1];
+                MyCommentsList[num - 1 - i] = t;
             }
         }
     }

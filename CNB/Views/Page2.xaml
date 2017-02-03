@@ -39,7 +39,8 @@
                     Background="LightBlue"
                     Foreground="White"
                     Content="评论"
-                    BorderBrush="White">
+                    BorderBrush="White"
+                    BorderThickness="0">
             </Button>
         </RelativePanel>
 

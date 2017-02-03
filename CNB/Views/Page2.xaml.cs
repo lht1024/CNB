@@ -16,7 +16,6 @@ namespace CNB
         public Page2()
         {
             this.InitializeComponent();
-
             if (MainPage.IsFirstPageLoad == false)
             {
                 MainPage.IsFirstPageLoad = true;

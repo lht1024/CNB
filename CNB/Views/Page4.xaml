@@ -9,15 +9,18 @@
 
     <StackPanel>
         <TextBlock Text="文字设置"
-                   Name="Test"
                    FontSize="25"
                    FontWeight="Bold"
                    Margin="20,15,0,10" />
         <StackPanel Orientation="Horizontal">
-            <WebView Name="SetWebView"
-                     Height="350"
-                     Width="300"
-                     HorizontalAlignment="Left" />
+            <Border BorderThickness="2"
+                    BorderBrush="DarkRed">
+                <WebView Name="SetWebView"
+                         Height="350"
+                         Width="300"
+                         HorizontalAlignment="Left" 
+                         />
+            </Border>
             <StackPanel Orientation="Vertical">
                 <Slider x:Name="MyFontSizeSlider"
                         TickPlacement="Outside"
@@ -69,5 +72,16 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
+        <TextBlock Text="评论排列设置"
+                   FontSize="25"
+                   FontWeight="Bold"
+                   Margin="20,15,0,10" />
+        <ToggleSwitch Name="MyConDirSwitch"
+                      OnContent="正序排列"
+                      OffContent="倒序排列"
+                      Toggled="MyConDirSwitch_Toggled"
+                      Margin="20,10"
+                      Foreground="DarkRed"/>
+
     </StackPanel>
 </Page>

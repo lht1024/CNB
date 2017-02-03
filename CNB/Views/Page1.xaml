@@ -26,10 +26,12 @@
                     Content="&#xE700;"
                     FontSize="24"
                     Height="45"
+                    Width="44"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignTopWithPanel="True"
                     Background="White"
-                    Click="SplitButton_Click" />
+                    Click="SplitButton_Click"
+                    BorderThickness="0"/>
             <AppBarButton   Label="刷新"
                             Name="Refresh"
                             Icon="RepeatAll"
@@ -66,7 +68,8 @@
                     Content="Microsoft 微软"
                     Background="White"
                     Height="45"
-                    Visibility="Collapsed">
+                    Visibility="Collapsed"
+                    BorderThickness="0">
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Microsoft 微软" Name="TopicA" Click="TopicA_Click" />
@@ -84,7 +87,8 @@
                     Content="今日最多阅读"
                     Background="White"
                     Height="45"
-                    Visibility="Collapsed">
+                    Visibility="Collapsed"
+                    BorderThickness="0">
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="今日最多阅读" Name="RankA" Click="RankA_Click" />

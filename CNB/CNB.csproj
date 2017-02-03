@@ -101,7 +101,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Comment.cs" />
-    <Compile Include="ViewModels\CommentsCollectionList.cs" />
     <Compile Include="Models\CommentsProxy.cs" />
     <Compile Include="Models\Delegates.cs" />
     <Compile Include="ViewModels\ComputeMD5.cs" />
