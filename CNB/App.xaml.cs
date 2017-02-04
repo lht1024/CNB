@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -19,6 +20,7 @@ namespace CNB
         public App()
         {
             this.InitializeComponent();
+            this.RegisterBackgroundTask();
             this.Suspending += OnSuspending;
         }
 
@@ -85,6 +87,32 @@ namespace CNB
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private async void RegisterBackgroundTask()
+        {
+            var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+            if (backgroundAccessStatus == BackgroundAccessStatus.Unspecified || backgroundAccessStatus == BackgroundAccessStatus.DeniedByUser)
+            {
+                return;
+            }
+
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            {
+                if (task.Value.Name == "NewsRefreshBackgroundTask")
+                {
+                    task.Value.Unregister(true);
+                }
+            }
+
+
+            var builder = new BackgroundTaskBuilder();
+            builder.Name = "NewsRefreshBackgroundTask";
+            builder.TaskEntryPoint = "BackgroundTasks.NewsRefreshBackgroundTask";
+            builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+            builder.SetTrigger(new TimeTrigger(120, false));
+            builder.Register();
+
         }
     }
 }

@@ -46,8 +46,8 @@ namespace CNB
             }
             else
             {
-                localSettings.Values["MyFontSize"] = "16";
-                localSettings.Values["MyPaPadding"] = "0";
+                localSettings.Values["MyFontSize"] = "22";
+                localSettings.Values["MyPaPadding"] = "2";
                 localSettings.Values["MyLeSpacing"] = "0";
                 MainPage.MyFontSize = "16";
                 MainPage.MyPaPadding = "0";

@@ -36,11 +36,11 @@ namespace CNB
             this.InitializeComponent();
             if (MainPage.MyCommentDirection == "0")
             {
-                ReverseMyContent.Content = "正序排列";
+                ReverseMyContent.Content = "正序";
             }
             else
             {
-                ReverseMyContent.Content = "倒序排列";
+                ReverseMyContent.Content = "倒序";
             }
             MyCommentsList = new ObservableCollection<Comment>();
 
@@ -70,6 +70,8 @@ namespace CNB
                 HotComments.Background = new SolidColorBrush(white);
                 AllComments.Foreground = new SolidColorBrush(white);
                 AllComments.Background = new SolidColorBrush(darkRed);
+                ReverseMyContent.Foreground = new SolidColorBrush(darkRed);
+                ReverseMyContent.Background = new SolidColorBrush(white);
                 MyCommentsList.Clear();
                 SetAllComments();
             }
@@ -84,6 +86,8 @@ namespace CNB
                 HotComments.Background = new SolidColorBrush(darkRed);
                 AllComments.Foreground = new SolidColorBrush(darkRed);
                 AllComments.Background = new SolidColorBrush(white);
+                ReverseMyContent.Foreground = new SolidColorBrush(white);
+                ReverseMyContent.Background = new SolidColorBrush(darkRed);
                 MyCommentsList.Clear();
                 SetHotComments();
             }
@@ -187,12 +191,12 @@ namespace CNB
             if (MainPage.MyCommentDirection == "0")
             {
                 MainPage.MyCommentDirection = "1";
-                ReverseMyContent.Content = "倒序排列";
+                ReverseMyContent.Content = "倒序";
             }
             else
             {
                 MainPage.MyCommentDirection = "0";
-                ReverseMyContent.Content = "正序排列";
+                ReverseMyContent.Content = "正序";
             }
             MyReverse();
         }

@@ -25,7 +25,7 @@
                     FontFamily="Segoe MDL2 Assets"
                     Content="&#xE700;"
                     FontSize="24"
-                    Height="45"
+                    Height="47"
                     Width="44"
                     RelativePanel.AlignLeftWithPanel="True"
                     RelativePanel.AlignTopWithPanel="True"
@@ -39,7 +39,7 @@
                             IsCompact="True"
                             RelativePanel.RightOf="SplitButton"
                             RelativePanel.AlignTopWithPanel="True"
-                            Height="45" />
+                            Height="47" />
 
             <TextBlock  Name="MyNewsTotal"
                         FontSize="20"
@@ -104,7 +104,7 @@
                             IsCompact="True"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignTopWithPanel="True"
-                            Height="45" />
+                            Height="47" />
         </RelativePanel>
         <SplitView DisplayMode="CompactOverlay"
                    OpenPaneLength="160"
@@ -113,7 +113,7 @@
                    Name="MySplitView"
                    Grid.Row="1">
             <SplitView.Pane>
-                <StackPanel>
+                <StackPanel Background="White">
                     <ListBox Background="White"
                              SelectionMode="Single"
                              SelectionChanged="ListBox_SelectionChanged">
