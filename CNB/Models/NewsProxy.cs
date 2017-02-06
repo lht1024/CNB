@@ -121,5 +121,6 @@ namespace CNB
         public string thumb { get; set; }
         public string title { get; set; }
         public string topic_logo { get; set; }
+        public string topic { get; set; }
     }
 }

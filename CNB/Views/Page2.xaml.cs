@@ -21,23 +21,30 @@ namespace CNB
                 MainPage.IsFirstPageLoad = true;
                 MyBlock.Visibility = Visibility.Collapsed;
                 LoadComments.Visibility = Visibility.Collapsed;
+                ToSourceButton.Visibility = Visibility.Collapsed;
                 MyWebView.Source = new Uri("ms-appx-web:///Assets/FirstPage.html", UriKind.RelativeOrAbsolute);
             }
             else if (MainPage.IsAboutClick == true)
             {
                 MainPage.IsAboutClick = false;
                 LoadComments.Visibility = Visibility.Collapsed;
+                ToSourceButton.Visibility = Visibility.Visible;
                 MyBlock.Visibility = Visibility.Visible;
+                ToSourceButton.Content = "GitHub";
                 MyDetailSource.Text = "关于";
                 MyDetailDate.Text = "";
                 MyWebView.Source = new Uri("ms-appx-web:///Assets/AboutPage.html", UriKind.RelativeOrAbsolute);
+                ToSourceButton.Width = 100;
+                ToSourceButton.NavigateUri = new Uri("https://github.com/lht1024/CNB-UWP", UriKind.Absolute);
             }
             else
             {
                 MyBlock.Visibility = Visibility.Visible;
                 LoadComments.Visibility = Visibility.Visible;
+                ToSourceButton.Visibility = Visibility.Visible;
                 MyDetailSource.Text = FormatSourceID(MainPage.myDetail.result.source);
                 MyDetailDate.Text = MainPage.myDetail.result.time;
+                ToSourceButton.NavigateUri = new Uri(string.Format("http://www.cnbeta.com/articles/{0}.htm",MainPage.myDetail.result.sid),UriKind.Absolute);
                 MyWebView.Source = new Uri("ms-appdata:///local/DataFile/HTMLPage1.html", UriKind.RelativeOrAbsolute);
             }
         }

@@ -17,7 +17,8 @@ namespace CNB.Views
         {
             this.InitializeComponent();
             Update();
-            MyConDirSwitch.IsOn = (MainPage.MyCommentDirection == "0") ? true : false; 
+            MyConDirSwitch.IsOn = (MainPage.MyCommentDirection == "0") ? true : false;
+            HateAppleSwitch.IsOn = (MainPage.IHateApple == "1") ? true : false;
             MyFontSizeSlider.Value = Convert.ToDouble(MainPage.MyFontSize);
             MyLeSpacingSlider.Value = Convert.ToDouble(MainPage.MyLeSpacing);
             MyPaPaddingSlider.Value = Convert.ToDouble(MainPage.MyPaPadding);
@@ -83,12 +84,30 @@ namespace CNB.Views
             if (MyConDirSwitch.IsOn)
             {
                 MainPage.SetMySetting("0", "MyConDir");
+                MainPage.MyCommentDirection = "0";
             }
             else
             {
                 MainPage.SetMySetting("1", "MyConDir");
+                MainPage.MyCommentDirection = "1";
             }
 
+        }
+
+        private void HateAppleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (HateAppleSwitch.IsOn)
+            {
+                MainPage.SetMySetting("1", "IHA");
+                if(MainPage.IHateApple != "1")
+                    MainPage.IHateApple = "1";
+            }
+            else
+            {
+                MainPage.SetMySetting("0", "IHA");
+                if (MainPage.IHateApple != "0")
+                    MainPage.IHateApple = "0";
+            }
         }
     }
 }

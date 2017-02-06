@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -117,13 +118,19 @@ namespace CNB
                     }
                     else
                     {
+                        if (MainPage.Filter == 0 && MainPage.IHateApple == "1")
+                        {
+                            MainPage.myData.result = MainPage.myData.result.Where(p => p.topic != "9" && p.topic != "464" && p.topic != "379"
+                                         && p.topic != "343" && p.topic != "79" && p.topic != "66" && p.topic != "158" && p.topic != "535").ToList();
+                        }
+                        
                         foreach (var item in MainPage.myData.result)
                         {
                             this.Add(new News
                             {
                                 title = item.title,
                                 pubtime = item.pubtime,
-                                summary = item.summary,
+                                summary = item.summary.Replace("&quot;", "\""),
                                 sid = item.sid,
                                 counter = item.counter + "次点击",
                                 comments = item.comments + "条评论",

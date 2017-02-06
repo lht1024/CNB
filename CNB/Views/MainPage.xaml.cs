@@ -28,6 +28,7 @@ namespace CNB
         public static int RankSelected = 0;
         public static int TopicSelected = 0;
         public static string MyCommentDirection;
+        public static string IHateApple;
 
         public MainPage()
         {
@@ -61,6 +62,15 @@ namespace CNB
             {
                 localSettings.Values["MyConDir"] = "0";
                 MainPage.MyCommentDirection = "0";
+            }
+            if (localSettings.Values.ContainsKey("IHA"))
+            {
+                MainPage.IHateApple = localSettings.Values["IHA"].ToString();
+            }
+            else
+            {
+                localSettings.Values["IHA"] = "0";
+                MainPage.IHateApple = "0";
             }
         }
 

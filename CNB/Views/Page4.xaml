@@ -72,15 +72,21 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <TextBlock Text="评论排列设置"
+        <TextBlock Text="其他设置"
                    FontSize="25"
                    FontWeight="Bold"
-                   Margin="20,15,0,10" />
+                   Margin="20,15,0,0" />
         <ToggleSwitch Name="MyConDirSwitch"
-                      OnContent="正序排列"
-                      OffContent="倒序排列"
+                      OnContent="评论正序排列"
+                      OffContent="评论倒序排列"
                       Toggled="MyConDirSwitch_Toggled"
-                      Margin="20,10"
+                      Margin="20,5,0,0"
+                      Foreground="DarkRed"/>
+        <ToggleSwitch Name="HateAppleSwitch"
+                      OnContent="已屏蔽所有和苹果有关的主题"
+                      OffContent="过滤模式未开启"
+                      Toggled="HateAppleSwitch_Toggled"
+                      Margin="20,0,0,0"
                       Foreground="DarkRed"/>
 
     </StackPanel>

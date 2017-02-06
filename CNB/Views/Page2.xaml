@@ -14,34 +14,46 @@
         </Grid.RowDefinitions>
         <RelativePanel>
             <Grid RelativePanel.AlignLeftWithPanel="True"
-                          RelativePanel.AlignTopWithPanel="True"
-                          Name="MySourceGrid">
-                <Rectangle Width="150"
-                                   Height="50"
-                                   Fill="LightBlue"
-                                   Name="MyBlock" />
+                  RelativePanel.AlignTopWithPanel="True"
+                  Name="MySourceGrid">
+                <Rectangle  Width="150"
+                            Height="50"
+                            Fill="LightBlue"
+                            Name="MyBlock" />
                 <TextBlock  Name="MyDetailSource"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Foreground="White" />
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="White" />
             </Grid>
             <TextBlock Name="MyDetailDate"
                        HorizontalAlignment="Right"
-                       Margin="70,18,10,0"
+                       Margin="50,18,50,0"
                        Foreground="Gray"
                        RelativePanel.RightOf="MySourceGrid"
                        RelativePanel.AlignTopWithPanel="True" />
 
-            <Button Name="LoadComments"
-                    Click="LoadComments_Click"
-                    RelativePanel.RightOf="MyDetailDate"
-                    Margin="25,10"
-                    Background="LightBlue"
-                    Foreground="White"
-                    Content="评论"
-                    BorderBrush="White"
-                    BorderThickness="0">
-            </Button>
+            <Border BorderThickness="0,0,1,0"
+                    BorderBrush="#FF8CC0D1"
+                    RelativePanel.LeftOf="ToSourceButton">
+                <Button Name="LoadComments"
+                        Click="LoadComments_Click"
+                        Height="50"
+                        Width="80"
+                        Background="LightBlue"
+                        Foreground="White"
+                        Content="评论"
+                        BorderBrush="White"
+                        BorderThickness="0"/>   
+            </Border>
+            <HyperlinkButton Name="ToSourceButton"
+                             RelativePanel.AlignRightWithPanel="True"
+                             Height="50"
+                             Background="LightBlue"
+                             Foreground="White"
+                             Width="50"
+                             Content="源"
+                             BorderBrush="White"
+                             BorderThickness="0" />
         </RelativePanel>
 
         <WebView Name="MyWebView"
