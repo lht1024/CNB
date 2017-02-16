@@ -42,7 +42,7 @@ namespace CNB
         {
             MainPage.IsAboutClick = true;
             NewsFrame.Navigate(typeof(Page2));
-            MainPage.IsFirstPageLoad = false;
+            //MainPage.IsFirstPageLoad = false;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 

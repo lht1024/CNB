@@ -72,6 +72,8 @@ namespace BackgroundTasks
             int itemCount = 0;
             foreach (var item in feed.result)
             {
+                item.title = item.title.Replace("[图]","");
+                item.title = item.title.Replace("[视频","");
                 TileContent content = new TileContent()
                 {
                     Visual = new TileVisual()
@@ -149,8 +151,6 @@ namespace BackgroundTasks
 
     public sealed class UNewsRaw
     {
-        public string pubtime { get; set; }
-        public string summary { get; set; }
         public string title { get; set; }
         public string thumb { get; set; }
     }

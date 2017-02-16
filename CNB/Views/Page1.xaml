@@ -147,7 +147,7 @@
                                 <TextBlock Text="新闻主题" FontSize="18" Margin="20,0,0,0" />
                             </StackPanel>
                         </ListBoxItem>
-                        <ListBoxItem Name="SetItem" ToolTipService.ToolTip="设置" ToolTipService.Placement="Right">
+                        <ListBoxItem Name="SetItem" ToolTipService.ToolTip="设置" ToolTipService.Placement="Right" >
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE115;" FontSize="24" VerticalAlignment="Center" />
                                 <TextBlock Text="设置" FontSize="18" Margin="20,0,0,0" />
