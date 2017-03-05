@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
@@ -105,14 +107,15 @@ namespace CNB
                     {
                         foreach (var item in MainPage.myData.result)
                         {
-                            this.Add(new News
-                            {
-                                title = item.comment,
-                                summary = item.subject,
-                                sid = item.sid,
-                                pubtime = "匿名用户",
-                                comments = "发表于",
-                                counter = ""
+                                this.Add(new News
+                                {
+                                    title = ResetMyTitle(item.title),
+                                    summary = ResetMySummary(item.description),
+                                    //sid = item.from_id,
+                                    sid = ResetMySid(item.description),
+                                    pubtime = "",
+                                    comments = "",
+                                    counter = ""
                             });
                         }
                     }
@@ -159,6 +162,31 @@ namespace CNB
             {
                 Count = (uint)actualCount
             };
+        }
+
+        private string ResetMyTitle(string title)
+        {
+            string MyText = Regex.Replace(title, "<a.+?>", "");
+            MyText = MyText.Replace("</a>","");
+            return MyText;
+        }
+
+        private string ResetMySummary(string description)
+        {
+            string MyText = description.Replace("<strong>","");
+            MyText = MyText.Replace("</strong>", "");
+            MyText = MyText.Replace("</a>", "");
+            MyText = Regex.Replace(MyText, "<a.+?>","");
+            MyText = MyText.Replace(":", "  ");
+            return MyText;
+        }
+
+        private string ResetMySid(string description)
+        {
+            var data  = Regex.Split(description, ".htm", RegexOptions.IgnoreCase);
+            var sid = data[0].Split('/');
+            var num = sid.Count() - 1;
+            return sid[num];
         }
     }
 }

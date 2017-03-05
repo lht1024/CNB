@@ -114,9 +114,9 @@
                    Grid.Row="1">
             <SplitView.Pane>
                 <ListBox Background="White"
-                             SelectionMode="Single"
-                             SelectionChanged="ListBox_SelectionChanged"
-                             VerticalAlignment="Stretch">
+                         SelectionMode="Single"
+                         SelectionChanged="ListBox_SelectionChanged"
+                         VerticalAlignment="Stretch">
                     <ListBoxItem Name="NItem" ToolTipService.ToolTip="最新资讯" ToolTipService.Placement="Right">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE128;" FontSize="24" VerticalAlignment="Center" />
@@ -166,7 +166,6 @@
                                 <StackPanel HorizontalAlignment="Left"
                                             Orientation="Vertical"
                                             BorderThickness="5">
-
                                     <TextBlock  FontSize="18"
                                                 Margin="5"
                                                 FontWeight="Bold"
@@ -174,33 +173,33 @@
                                                 TextWrapping="Wrap"
                                                 HorizontalAlignment="Left"
                                                 Foreground="DarkRed" />
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock  FontSize="10"
-                                                    Text="{x:Bind pubtime}"
-                                                    HorizontalAlignment="Left"
-                                                    VerticalAlignment="Center"
-                                                    Margin="20,0" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock  FontSize="10"
+                                                        Text="{x:Bind pubtime}"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Margin="20,0" />
 
-                                        <TextBlock FontSize="10"
+                                            <TextBlock FontSize="10"
                                                        Text="{x:Bind comments}"
                                                        Margin="0,0,10,0" />
 
-                                        <TextBlock FontSize="10"
+                                            <TextBlock FontSize="10"
                                                        Text="{x:Bind counter}" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock  FontSize="14"
-                                                    Margin="5"
-                                                    Text="{x:Bind summary}"
-                                                    TextWrapping="Wrap"
-                                                    Width="275"
-                                                    HorizontalAlignment="Left" />
-                                        <Image Source="{x:Bind thumb}"
-                                               Stretch="Uniform"
-                                               Width="95"
-                                               Height="95"
-                                               VerticalAlignment="Center" />
-                                    </StackPanel>
+                                </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock  FontSize="14"
+                                                        Margin="5"
+                                                        Text="{x:Bind summary}"
+                                                        TextWrapping="Wrap"
+                                                        Width="275"
+                                                        HorizontalAlignment="Left" />
+                                    <Image Source="{x:Bind thumb}"
+                                                   Stretch="Uniform"
+                                                   Width="95"
+                                                   Height="95"
+                                                   VerticalAlignment="Center" />
+                                </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>

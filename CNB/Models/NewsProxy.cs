@@ -17,12 +17,16 @@ namespace CNB
     {
         public async static Task<LNewsRaw> GetHotComments()
         {
-            var timstamp = ComputeMD5.GetTimeStop();
-            var toBehashed = String.Format("app_key=10000&format=json&method=Article.RecommendComment&timestamp={0}&v=1.0&mpuffgvbvbttn3Rc", timstamp);
-            var Md5 = ComputeMD5.GetMD5(toBehashed);
-            var mylink = String.Format("http://api.cnbeta.com/capi?app_key=10000&format=json&method=Article.RecommendComment&timestamp={0}&v=1.0&sign={1}", timstamp, Md5);
+            //var timstamp = ComputeMD5.GetTimeStop();
+            //var toBehashed = String.Format("app_key=10000&format=json&method=Article.RecommendComment&timestamp={0}&v=1.0&mpuffgvbvbttn3Rc", timstamp);
+            //var Md5 = ComputeMD5.GetMD5(toBehashed);
+            //var mylink = String.Format("http://api.cnbeta.com/capi?app_key=10000&format=json&method=Article.RecommendComment&timestamp={0}&v=1.0&sign={1}", timstamp, Md5);
 
+            var timstamp = ComputeMD5.GetTimeStop();
+            var mylink = string.Format("http://www.cnbeta.com/home/more?type=jhcomment&page=1&_={0}", timstamp);
             var http = new HttpClient();
+            //http.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+            http.DefaultRequestHeaders.Referrer = new Uri("http://www.cnbeta.com/");
             var response = await http.GetAsync(mylink);
             var result = await response.Content.ReadAsStringAsync();
             var data = JsonConvert.DeserializeObject<LNewsRaw>(result);
@@ -111,16 +115,19 @@ namespace CNB
 
     public class NewsRaw
     {
-        public string comment { get; set; }
+        //public string comment { get; set; }
         public string comments { get; set; }
         public string counter { get; set; }
         public string pubtime { get; set; }
         public string sid { get; set; }
-        public string subject { get; set; }
+        //public string subject { get; set; }
         public string summary { get; set; }
         public string thumb { get; set; }
         public string title { get; set; }
         public string topic_logo { get; set; }
         public string topic { get; set; }
+
+        public string from_id{get;set;}
+        public string description { get; set; }
     }
 }

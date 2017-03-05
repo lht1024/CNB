@@ -28,9 +28,9 @@ namespace CNB
             {
                 MainPage.IsAboutClick = false;
                 LoadComments.Visibility = Visibility.Collapsed;
-                ToSourceButton.Visibility = Visibility.Visible;
+                ToSourceButton.Visibility = Visibility.Collapsed;
                 MyBlock.Visibility = Visibility.Visible;
-                ToSourceButton.Content = "GitHub";
+                ToSourceButton.Content = "";
                 MyDetailSource.Text = "关于";
                 MyDetailDate.Text = "";
                 MyWebView.Source = new Uri("ms-appx-web:///Assets/AboutPage.html", UriKind.RelativeOrAbsolute);
@@ -53,6 +53,8 @@ namespace CNB
         {
             RawText = Regex.Replace(RawText, "<a.+?>", "");
             RawText = Regex.Replace(RawText, "</a>", "");
+            RawText = RawText.Replace("<span>","");
+            RawText = RawText.Replace("</span>", "");
             return RawText;
         }
 

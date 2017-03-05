@@ -110,7 +110,7 @@ namespace CNB
             builder.Name = "NewsRefreshBackgroundTask";
             builder.TaskEntryPoint = "BackgroundTasks.NewsRefreshBackgroundTask";
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            builder.SetTrigger(new TimeTrigger(15, false));
+            builder.SetTrigger(new TimeTrigger(70, false));
             builder.Register();
 
         }

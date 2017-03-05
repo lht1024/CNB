@@ -122,7 +122,14 @@ namespace CNB
 
                 var headtext = String.Format("<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset = utf-8\"><style>{0}{1}{2}{3}</style></head>", ls, pp, fz, ff);
                 var filtler = Clear(headtext + MainPage.myDetail.result.hometext + MainPage.myDetail.result.bodytext);
-                await WriteHtml(filtler);
+                try
+                {
+                    await WriteHtml(filtler);
+                }
+                catch
+                {
+
+                }
                 NewsFrame.Navigate(typeof(Page2));
                 SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             }
