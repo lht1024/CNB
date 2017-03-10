@@ -1,0 +1,100 @@
+﻿<Page
+    x:Class="CNB.Views.Page5"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CNB.Views"
+    xmlns:loc="using:CNB"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Name="HotComments"
+                    Click="HotComments_Click"
+                    Content="热门评论"
+                    Foreground="White"
+                    Background="DarkRed"
+                    Margin="0,5,0,5"
+                    BorderBrush="DarkRed"
+                    BorderThickness="1" />
+            <Button Name="AllComments"
+                    Click="AllComments_Click"
+                    Content="所有评论"
+                    Foreground="White"
+                    Background="DarkRed"
+                    Margin="0,5,0,5"
+                    BorderBrush="DarkRed"
+                    BorderThickness="1" />
+            <Button Name="ReverseMyContent"
+                    Click="ReverseMyContent_Click"
+                    BorderThickness="1"
+                    BorderBrush="DarkRed"
+                    Background="White"
+                    Foreground="DarkRed"/>
+        </StackPanel>
+
+        <ListView ItemsSource="{x:Bind MyCommentsList}"
+                  Name="CommentsListView"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  IsItemClickEnabled="False"
+                  Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="loc:Comment">
+
+                    <StackPanel HorizontalAlignment="Left"
+                                    Orientation="Vertical"
+                                    BorderThickness="5">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="5">
+                            <TextBlock  FontSize="18"
+                                        FontWeight="Bold"
+                                        Text="{x:Bind name}"
+                                        TextWrapping="Wrap"
+                                        Width="350"
+                                        HorizontalAlignment="Left"
+                                        Foreground="DarkRed" />
+                            <TextBlock Text="{x:Bind locate}"
+                                       FontSize="16"
+                                       Foreground="DarkRed"
+                                       HorizontalAlignment="Right"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="10"
+                                       Text="{x:Bind date}"
+                                       Width="350"
+                                       HorizontalAlignment="Left"
+                                       Margin="10,0" />
+                            <TextBlock Name="Support"
+                                       Text="{x:Bind support}"
+                                       FontSize="13" />
+                            <TextBlock Name="Against"
+                                       Text="{x:Bind against }"
+                                       FontSize="13" />
+                        </StackPanel>
+                        <Border BorderThickness="{x:Bind myBorderThickness}"
+                                BorderBrush="DarkRed">
+                            <TextBlock FontSize="14"
+                                       Text="{x:Bind preComments}"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       Margin="5,5"
+                                       HorizontalAlignment="Stretch"/>
+                        </Border>
+                        <TextBlock  FontSize="16"
+                                    Margin="5"
+                                    Text="{x:Bind comment}"
+                                    TextWrapping="Wrap"
+                                    HorizontalAlignment="Left" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

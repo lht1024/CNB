@@ -1,4 +1,5 @@
-﻿using Windows.Storage;
+﻿using CNB.Models;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -18,6 +19,7 @@ namespace CNB
         public static bool IsFirstPageLoad = false;
         public static bool IsHotCommentsSelected = false;
         public static CommentsProxy.LCommentsRaw myComments;
+        public static CommentsWinthin24Proxy.LCommentsRaw myWinthin24Comments;
         public static LNewsRaw myData;
         public static LNewsContentRaw myDetail;
         public static string myDetialArticleId;

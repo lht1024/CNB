@@ -3,6 +3,8 @@ using System.Text.RegularExpressions;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using CNB.Views;
+using CNB.Models;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上有介绍
 
@@ -60,9 +62,33 @@ namespace CNB
 
         private async void LoadComments_Click(object sender, RoutedEventArgs e)
         {
-            MainPage.myComments = await CommentsProxy.GetResults(MainPage.myDetialArticleId);
-            Frame.Navigate(typeof(Page3));
+            var TS = CalTimeSpan(MainPage.myDetail.result.time);
+            if (TS.Days < 1 && TS.Hours < 24)
+            {
+                MainPage.myWinthin24Comments = await CommentsWinthin24Proxy.GetResults("1",MainPage.myDetialArticleId);
+                Frame.Navigate(typeof(Page5));
+            }
+            else
+            {
+                MainPage.myComments = await CommentsProxy.GetResults(MainPage.myDetialArticleId);
+                Frame.Navigate(typeof(Page3));
+            } 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+        }
+        /// <summary>
+        /// 从字符串中提取时间参数
+        /// </summary>
+        /// <param name="NewsTimeRaw"></param>
+        /// <returns></returns>
+        private TimeSpan CalTimeSpan(string NewsTimeRaw)
+        {
+            var Fir = NewsTimeRaw.Split(' ');
+            var YMD = Fir[0].Split('-');
+            var HMS = Fir[1].Split(':');
+            DateTime NewsTime = new DateTime (Convert.ToInt16(YMD[0]), Convert.ToInt16(YMD[1]), Convert.ToInt16(YMD[2]), 
+                Convert.ToInt16(HMS[0]), Convert.ToInt16(HMS[1]), Convert.ToInt16(HMS[2]));
+            var TimeSpan = DateTime.Now - NewsTime;
+            return TimeSpan;
         }
     }
 }

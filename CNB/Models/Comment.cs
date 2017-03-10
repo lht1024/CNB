@@ -1,4 +1,6 @@
-﻿namespace CNB
+﻿using Windows.UI.Xaml;
+
+namespace CNB
 {
     public class Comment
     {
@@ -14,5 +16,13 @@
 
         public string support { get; set; }
         public string tid { get; set; }
+
+        public string preComments { get; set; }
+
+        public string pid { get; set; }
+
+        public string locate { get; set; }
+
+        public Thickness myBorderThickness { get; set; }
     }
 }
