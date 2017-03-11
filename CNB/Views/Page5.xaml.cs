@@ -49,6 +49,8 @@ namespace CNB.Views
         public int MyLocate = 1;
         private ObservableCollection<Comment> MyCommentsList;
         List<Comment> MyTolComments = new List<Comment>();
+        Dictionary<string, string> MyPastCommentsDic = new Dictionary<string, string>();
+        Dictionary<string, string> MyTidPidDic = new Dictionary<string, string>();
 
        
         public Page5()
@@ -81,6 +83,10 @@ namespace CNB.Views
             
             MyCommentsList.Clear();
             SetAllComments();
+            if (MyCommentsList.Count < 10)
+            {
+                LoadMoreButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void AllComments_Click(object sender, RoutedEventArgs e)
@@ -106,6 +112,7 @@ namespace CNB.Views
                     ChangeDarkRed(ReverseMyContent);
                     MyCommentsList.Clear();
                     SetHotComments();
+                    LoadMoreButton.Visibility = Visibility.Collapsed;
                 }
             }
 
@@ -123,7 +130,7 @@ namespace CNB.Views
                             date = c.date,
                             against = "反对(" + c.against + ")",
                             support = "支持(" + c.support + ")",
-                            preComments = String.Equals(c.pid, "0") ? null : RemoveMySpecialString(GetMyPastComments(c)),
+                            preComments = String.Equals(c.pid, "0") ? null : RemoveMySpecialString(GetMyPastComments(c.tid)),
                             locate = c.locate,
                             myBorderThickness = c.pid.Equals("0") ? SetMyThickness(0) : SetMyThickness(2)
 
@@ -166,7 +173,7 @@ namespace CNB.Views
                                 date = c.date,
                                 against = "反对(" + c.against + ")",
                                 support = "支持(" + c.support + ")",
-                                preComments = String.Equals(c.pid, "0") ? null : RemoveMySpecialString(GetMyPastComments(c)),
+                                preComments = String.Equals(c.pid, "0") ? null : RemoveMySpecialString(GetMyPastComments(c.tid)),
                                 locate = c.locate,
                                 myBorderThickness = c.pid.Equals("0") ? SetMyThickness(0): SetMyThickness(2)
                             });
@@ -245,10 +252,11 @@ namespace CNB.Views
 
         private void FormatMyList()
         {
-            foreach(var c in MainPage.myWinthin24Comments.result)
+            foreach (var c in MainPage.myWinthin24Comments.result)
+            {
                 MyTolComments.Add(new Comment
                 {
-                    name = string.IsNullOrEmpty(c.username) ? "匿名用户" : c.username.Replace("android", "Android"),
+                    name = string.IsNullOrEmpty(c.username) ? "匿名用户" : FormatUsername(c.username),
                     comment = c.content,
                     date = c.created_time,
                     against = c.against,
@@ -257,27 +265,43 @@ namespace CNB.Views
                     pid = c.pid,
                     locate = (MyLocate++).ToString() + "楼"
                 });
+                MyPastCommentsDic.Add(c.tid,c.content);
+                MyTidPidDic.Add(c.tid,c.pid);
+            }
+                
         }
 
-        private string GetMyPastComments(Comment Item)
+        private string GetMyPastComments(string tid)
         {
             string myReturnString = "";
-            var curItem = Item;
-            while (curItem.pid != "0")
+            var curtid = tid;
+            while (MyTidPidDic[curtid] != "0")
             {
-                foreach (var item in MyTolComments)
-                {
-                    if (item.tid == curItem.pid)
-                    {
-                        myReturnString =item.locate + "  " + item.comment + "\r\n\n" + myReturnString;
-                        curItem = item;
-                        break;
-                    }
-                }
+                myReturnString = MyPastCommentsDic[MyTidPidDic[curtid]] + "\r\n\n" + myReturnString;
+                curtid = MyTidPidDic[curtid];
             }
+
+
+
+            //var curItem = Item;
+            //while (curItem.pid != "0")
+            //{
+            //    foreach (var item in MyTolComments)
+            //    {
+            //        if (item.tid == curItem.pid)
+            //        {
+            //            myReturnString =item.locate + "  " + item.comment + "\r\n\n" + myReturnString;
+            //            curItem = item;
+            //            break;
+            //        }
+            //    }
+            //}
 
             return myReturnString;
         }
+
+
+
 
         private Thickness SetMyThickness(int myThickness)
         {
@@ -287,7 +311,7 @@ namespace CNB.Views
 
         private string RemoveMySpecialString(string MyText)
         {
-           return MyText.Remove(MyText.LastIndexOf("\r\n\n"));
+            return MyText.Remove(MyText.LastIndexOf("\r\n\n"));
         }
 
         private void ChangeDarkRed(Button MyButton)
@@ -300,6 +324,21 @@ namespace CNB.Views
         {
             MyButton.Background = new SolidColorBrush(white);
             MyButton.Foreground = new SolidColorBrush(darkRed);
+        }
+
+        private string FormatUsername(string username)
+        {
+            
+            username = username.Replace("android", "Android");
+            username = username.Replace("ios","iOS");
+            return username;
+        }
+
+        private void LoadMoreButton_Click(object sender, RoutedEventArgs e)
+        {
+            MyCommentsList.Clear();
+            SetAllComments();
+            LoadMoreButton.Visibility = Visibility.Collapsed;
         }
     }
     
