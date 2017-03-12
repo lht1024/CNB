@@ -12,8 +12,16 @@ using NotificationsExtensions.Tiles;
 
 namespace BackgroundTasks
 {
+    /// <summary>
+    /// 工具类
+    /// </summary>
     public sealed class ComputeMD5
     {
+        /// <summary>
+        /// 生成MD5
+        /// </summary>
+        /// <param name="str">想要生成MD5的数据</param>
+        /// <returns>MD5数据</returns>
         public static string GetMD5(string str)
         {
             var alg = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);
@@ -23,6 +31,10 @@ namespace BackgroundTasks
             return res;
         }
 
+        /// <summary>
+        /// 获取当前时间戳
+        /// </summary>
+        /// <returns>当前时间戳</returns>
         public static string GetTimeStop()
         {
             return ((DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000).ToString();
@@ -47,6 +59,10 @@ namespace BackgroundTasks
             deferral.Complete();
         }
 
+        /// <summary>
+        /// 获取今日热评
+        /// </summary>
+        /// <returns>今日热评的数据</returns>
         private async static Task<ULNewsRaw> GetNewsByRank()
         {
             var timstamp = ComputeMD5.GetTimeStop();
@@ -119,7 +135,7 @@ namespace BackgroundTasks
                                     {
                                         Source = item.thumb,
                                         HintCrop = NotificationsExtensions.AdaptiveImageCrop.Circle,
-                                        HintAlign = NotificationsExtensions.AdaptiveImageAlign.Left,
+                                        HintAlign = NotificationsExtensions.AdaptiveImageAlign.Center,
                                         AlternateText = item.title
                                     },
                                     new NotificationsExtensions.AdaptiveText()

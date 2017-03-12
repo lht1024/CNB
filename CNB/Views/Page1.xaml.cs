@@ -29,6 +29,11 @@ namespace CNB
             NewsFrame.Navigate(typeof(Page2));
         }
 
+        /// <summary>
+        /// 清理html中的部分视频标签
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static string Clear(string text)
         {
             text = Regex.Replace(text, "<embed.+?/>", "<p style=\"text-align:center;font-weight:bolder\">不能视频显示</p>");
@@ -38,6 +43,11 @@ namespace CNB
             return text;
         }
 
+        /// <summary>
+        /// 关于按钮点击后
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void About_Click(object sender, RoutedEventArgs e)
         {
             MainPage.IsAboutClick = true;
@@ -46,6 +56,11 @@ namespace CNB
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
+        /// <summary>
+        /// 汉堡菜单选择更改后
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MainPage.Count = false;
@@ -101,6 +116,12 @@ namespace CNB
             }
         }
 
+
+        /// <summary>
+        /// 列表内容点击后
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MyListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             MainPage.IsHotCommentsSelected = false;
@@ -146,6 +167,11 @@ namespace CNB
             MyProcessRing.IsActive = true;
         }
 
+        /// <summary>
+        /// 顶栏后退按钮点击后
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Page_GoBack(object sender, BackRequestedEventArgs e)
         {
             if (NewsFrame.CanGoBack)
@@ -191,6 +217,11 @@ namespace CNB
             }
         }
 
+        /// <summary>
+        /// 更新按钮点击后
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Refresh_Click(object sender, RoutedEventArgs e)
         {
             MainPage.IsFirstPageLoad = false;
@@ -201,6 +232,11 @@ namespace CNB
             await MyListView.LoadMoreItemsAsync();
         }
 
+        /// <summary>
+        /// 汉堡菜单展开/闭合
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SplitButton_Click(object sender, RoutedEventArgs e)
         {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
@@ -283,6 +319,11 @@ namespace CNB
             }
         }
 
+        /// <summary>
+        /// 将获取的新闻详细内容写入HTMLPage1.html
+        /// </summary>
+        /// <param name="filtler">处理完成的新闻</param>
+        /// <returns></returns>
         private async Task WriteHtml(string filtler)
         {
             IStorageFolder local = ApplicationData.Current.LocalFolder;
@@ -292,20 +333,21 @@ namespace CNB
         }
 
         /*   public static string ClearHtmlCode(string text)
-{
-text = text.Trim();
-if (string.IsNullOrEmpty(text))
-return string.Empty;
-text = Regex.Replace(text, "[/s]{2,}", " ");    //two or more spaces
-text = Regex.Replace(text, "(<[b|B][r|R]/*>)+|(<[p|P](.|/n)*?>)", " ");    //<br>
-text = Regex.Replace(text,"</p>","\n");
-text = Regex.Replace(text, "(/s*&[n|N][b|B][s|S][p|P];/s*)+", " ");    //
-text = Regex.Replace(text, "<(.|/n)*?>", string.Empty);    //any other tags
-text = Regex.Replace(text, "/<//?[^>]*>/g", string.Empty);    //any other tags
-text = Regex.Replace(text, "/[    | ]* /g", string.Empty);    //any other tags
-//text = text.Replace("'", "''");
-text = Regex.Replace(text, "/ [/s| |    ]* /g", string.Empty);
-return text;
-}*/
+            {
+                text = text.Trim();
+                if (string.IsNullOrEmpty(text))
+                return string.Empty;
+                text = Regex.Replace(text, "[/s]{2,}", " ");    //two or more spaces
+                text = Regex.Replace(text, "(<[b|B][r|R]/*>)+|(<[p|P](.|/n)*?>)", " ");    //<br>
+                text = Regex.Replace(text,"</p>","\n");
+                text = Regex.Replace(text, "(/s*&[n|N][b|B][s|S][p|P];/s*)+", " ");    //
+                text = Regex.Replace(text, "<(.|/n)*?>", string.Empty);    //any other tags
+                text = Regex.Replace(text, "/<//?[^>]*>/g", string.Empty);    //any other tags
+                text = Regex.Replace(text, "/[    | ]* /g", string.Empty);    //any other tags
+                //text = text.Replace("'", "''");
+                text = Regex.Replace(text, "/ [/s| |    ]* /g", string.Empty);
+                return text;
+            }
+            */
     }
 }

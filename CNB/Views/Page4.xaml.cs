@@ -56,6 +56,9 @@ namespace CNB.Views
             Update();
         }
 
+        /// <summary>
+        /// 更新文本设置
+        /// </summary>
         private async void Update()
         {
             var ls = "p{letter-spacing:" + MainPage.MyLeSpacing + "px}";

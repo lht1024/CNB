@@ -93,6 +93,9 @@ namespace CNB
             }
         }
 
+        /// <summary>
+        /// 将所有评论载入List
+        /// </summary>
         private void SetAllComments()
         {
             ReverseMyContent.Visibility = Visibility.Visible;
@@ -136,6 +139,9 @@ namespace CNB
             }
         }
 
+        /// <summary>
+        /// 将热门评论载入List
+        /// </summary>
         private void SetHotComments()
         {
             if (MainPage.myComments.result != null && MainPage.myComments.result.Count != 0)
@@ -186,6 +192,11 @@ namespace CNB
             }
         }
 
+        /// <summary>
+        /// 倒序按钮点击后
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ReverseMyContent_Click(object sender, RoutedEventArgs e)
         {
             if (MainPage.MyCommentDirection == "0")
@@ -201,6 +212,9 @@ namespace CNB
             MyReverse();
         }
 
+        /// <summary>
+        /// 倒序操作
+        /// </summary>
         private void MyReverse()
         {
             Comment t = new Comment();

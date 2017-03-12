@@ -18,6 +18,7 @@ namespace CNB
         public Page2()
         {
             this.InitializeComponent();
+
             if (MainPage.IsFirstPageLoad == false)
             {
                 MainPage.IsFirstPageLoad = true;
@@ -51,15 +52,11 @@ namespace CNB
             }
         }
 
-        private string FormatSourceID(string RawText)
-        {
-            RawText = Regex.Replace(RawText, "<a.+?>", "");
-            RawText = Regex.Replace(RawText, "</a>", "");
-            RawText = RawText.Replace("<span>","");
-            RawText = RawText.Replace("</span>", "");
-            return RawText;
-        }
-
+        /// <summary>
+        /// 评论按钮点击后
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void LoadComments_Click(object sender, RoutedEventArgs e)
         {
             var TS = CalTimeSpan(MainPage.myDetail.result.time);
@@ -75,11 +72,12 @@ namespace CNB
             } 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
+
         /// <summary>
-        /// 从字符串中提取时间参数
+        /// 计算输入的新闻时间与当前时间的间隔
         /// </summary>
-        /// <param name="NewsTimeRaw"></param>
-        /// <returns></returns>
+        /// <param name="NewsTimeRaw">输入的新闻时间</param>
+        /// <returns>输入时间与当前时间的间隔</returns>
         private TimeSpan CalTimeSpan(string NewsTimeRaw)
         {
             var Fir = NewsTimeRaw.Split(' ');
@@ -89,6 +87,20 @@ namespace CNB
                 Convert.ToInt16(HMS[0]), Convert.ToInt16(HMS[1]), Convert.ToInt16(HMS[2]));
             var TimeSpan = DateTime.Now - NewsTime;
             return TimeSpan;
+        }
+
+        /// <summary>
+        /// 处理文章来源网站的字符串
+        /// </summary>
+        /// <param name="RawText">源字符串</param>
+        /// <returns>处理后的字符串</returns>
+        private string FormatSourceID(string RawText)
+        {
+            RawText = Regex.Replace(RawText, "<a.+?>", "");
+            RawText = Regex.Replace(RawText, "</a>", "");
+            RawText = RawText.Replace("<span>", "");
+            RawText = RawText.Replace("</span>", "");
+            return RawText;
         }
     }
 }
